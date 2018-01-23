@@ -1,97 +1,59 @@
-filetype plugin indent on
+" dein.vim setting
+if &compatible
+  set nocompatible
+endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-syntax on
+if dein#load_state(expand('~/.vim/plugins'))
+  call dein#begin(expand('~/.vim/plugins'))
 
-set t_Co=256
-set fileformats=unix
+  call dein#end()
+  call dein#save_state()
+endif
 
-set smarttab
-set expandtab
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+filetype plugin indent on 
+syntax enable
 
+" setting
+set fenc=utf-8
+set nobackup
+set noswapfile
+set autoread
+set hidden
+set showcmd
 set nowrap
+set number 
+set cursorline
+set smartindent
+set visualbell
+set showmatch
+set laststatus=2
+set wildmode=list:longest
+set scrolloff=3
 
-set virtualedit=block
+" to edit with a mouse
+set mouse=a
 
-set incsearch
-set hlsearch
+set list listchars=tab:\>\-
+set expandtab
+set tabstop=2
+set shiftwidth=2
+
+" search settings
 set ignorecase
 set smartcase
+set incsearch
+set wrapscan
+set hlsearch
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-set ruler
-set number
-set list
-set listchars=tab:>-
-
-set ambiwidth=double
-
-set laststatus=2
-set showtabline=2
-
-set wildmenu
-set wildmode=list:full
-set wildignore=*.o,*.obj,*.pyc,*.so,*.dll
-let g:python_highlight_all = 1
-
-set showcmd
-
-set clipboard=unnamed
-
-" set up for python
-
-
-if exists('b:did_ftplugin_python')
-    finish
-endif
-let b:did_ftplugin_python = 1
-
-setlocal smarttab
-setlocal expandtab
-setlocal tabstop=4
-setlocal shiftwidth=4
-setlocal foldmethod=indent
-setlocal commentstring=#%s
-
-" - af: a function
-   " - if: inner function
-   " - ac: a class
-   " - ic: inner class
-
-   " this plugin has aditional key-bind
-"  -  '[pf', ']pf': move to next/previous function
- "  -  '[pc', ']pc': move to next/previous class
- xmap <buffer> af <Plug>(textobj-python-function-a)
- omap <buffer> af <Plug>(textobj-python-function-a)
- xmap <buffer> if <Plug>(textobj-python-function-i)
- omap <buffer> if <Plug>(textobj-python-function-i)
- xmap <buffer> ac <Plug>(textobj-python-class-a)
- omap <buffer> ac <Plug>(textobj-python-class-a)
- xmap <buffer> ic <Plug>(textobj-python-class-i)
- omap <buffer> ic <Plug>(textobj-python-class-i)
-
- setlocal omnifunc=jedi#completions
-  
-if version < 600
-    syntax clear
-elseif exists('b:current_after_syntax')
-    finish
-endif
-
-" We need nocompatible mode in order to continue lines with backslashes.
-" Original setting will be restored.
-let s:cpo_save = &cpo
-set cpo&vim
-
-syn match pythonOperator "\(+\|=\|-\|\^\|\*\)"
-syn match pythonDelimiter "\(,\|\.\|:\)"
-syn keyword pythonSpecialWord self
-
-hi link pythonSpecialWord    Special
-hi link pythonDelimiter      Special
-
-let b:current_after_syntax = 'python'
-
-let &cpo = s:cpo_save
-unlet s:cpo_save
+" move to home/end and start editing
+inoremap <C-e> <Esc>$a
+inoremap <C-a> <Esc>^a
+noremap <C-e> <Esc>$a
+noremap <C-a> <Esc>^a
+" cursor moving
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
