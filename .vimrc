@@ -2,6 +2,18 @@
 if &compatible
   set nocompatible
 endif
+
+" dein.vim install if not exists
+let s:dein_dir = expand('.vim/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/gihub.com/Shougo/dein.vim'
+
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir,':p')
+endif
+
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(expand('~/.vim/plugins'))
@@ -52,6 +64,7 @@ inoremap <C-e> <Esc>$a
 inoremap <C-a> <Esc>^a
 noremap <C-e> <Esc>$a
 noremap <C-a> <Esc>^a
+
 " cursor moving
 nnoremap j gj
 nnoremap k gk
