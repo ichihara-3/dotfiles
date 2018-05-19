@@ -19,6 +19,8 @@ set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(expand('~/.vim/plugins'))
   call dein#begin(expand('~/.vim/plugins'))
 
+  call dein#add('scrooloose/nerdtree')
+
   call dein#end()
   call dein#save_state()
 endif
@@ -35,7 +37,7 @@ set hidden
 set showcmd
 set nowrap
 set number 
-set cursorline
+"set cursorline
 set smartindent
 set visualbell
 set showmatch
@@ -44,8 +46,6 @@ set wildmode=list:longest
 set scrolloff=3
 
 " to edit with a mouse
-set mouse=a
-
 set list listchars=tab:\>\-
 set expandtab
 set tabstop=2
