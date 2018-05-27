@@ -4,7 +4,7 @@ if &compatible
 endif
 
 " dein.vim install if not exists
-let s:dein_dir = expand('.vim/dein')
+let s:dein_dir = expand('~/.vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/gihub.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
