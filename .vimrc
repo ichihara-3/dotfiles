@@ -20,6 +20,7 @@ if dein#load_state(expand('~/.vim/plugins'))
   call dein#begin(expand('~/.vim/plugins'))
 
   call dein#add('scrooloose/nerdtree')
+  call dein#add('tpope/vim-fugitive')
 
   call dein#end()
   call dein#save_state()
