@@ -3,27 +3,29 @@ if &compatible
   set nocompatible
 endif
 
-" dein.vim install if not exists
-let s:dein_dir = expand('~/.vim/dein')
-let s:dein_repo_dir = s:dein_dir . '/repos/gihub.com/Shougo/dein.vim'
+if (v:version >= 800)
+  " dein.vim install if not exists
+  let s:dein_dir = expand('~/.vim/dein')
+  let s:dein_repo_dir = s:dein_dir . '/repos/gihub.com/Shougo/dein.vim'
 
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  if &runtimepath !~# '/dein.vim'
+    if !isdirectory(s:dein_repo_dir)
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+    endif
+    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir,':p')
   endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir,':p')
-endif
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+  set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state(expand('~/.vim/plugins'))
-  call dein#begin(expand('~/.vim/plugins'))
+  if dein#load_state(expand('~/.vim/plugins'))
+    call dein#begin(expand('~/.vim/plugins'))
 
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('tpope/vim-fugitive')
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('tpope/vim-fugitive')
 
-  call dein#end()
-  call dein#save_state()
+    call dein#end()
+    call dein#save_state()
+  endif
 endif
 
 filetype plugin indent on 
