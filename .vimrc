@@ -62,12 +62,6 @@ set wrapscan
 set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-" move to home/end and start editing
-inoremap <C-e> <Esc>$a
-inoremap <C-a> <Esc>^a
-noremap <C-e> <Esc>$a
-noremap <C-a> <Esc>^a
-
 " cursor moving
 nnoremap j gj
 nnoremap k gk
