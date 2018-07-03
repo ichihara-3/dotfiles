@@ -49,7 +49,6 @@ set wildmode=list:longest
 set scrolloff=3
 
 " to edit with a mouse
-set list listchars=tab:\>\-
 set expandtab
 set tabstop=2
 set shiftwidth=2
