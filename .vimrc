@@ -21,6 +21,8 @@ if dein#load_state(expand('~/.vim/plugins'))
 
   call dein#add('scrooloose/nerdtree')
   call dein#add('tpope/vim-fugitive')
+  call dein#add('Shougo/denite.nvim')
+  call dein#add('python-mode/python-mode')
 
   call dein#end()
   call dein#save_state()
