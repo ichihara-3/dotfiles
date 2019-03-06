@@ -16,6 +16,9 @@ set cursorline
 " show typing commands and counts of selected area
 set showcmd
 
+" always show a status line
+set laststatus=2
+
 " tab length that appears
 set tabstop=4
 " width of indent (the size of tabstop is used)
@@ -35,3 +38,6 @@ set number
 
 " enable to hide modified buffers without :write
 set hidden
+
+" turn off highlight with typing Esc Key twice
+nnoremap <ESC><ESC> :noh<CR>
