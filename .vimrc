@@ -1,6 +1,6 @@
 " plugin management
 " with junegunn/vim-plug
-" to use vim-plug, install the plugin into the autoload directory
+" To use vim-plug, install the plugin into the autoload directory
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "
 call plug#begin('~/.vim/plugged')
@@ -11,6 +11,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 " repeat vim-surround
 Plug 'tpope/vim-repeat'
+" golanguage support
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -26,6 +28,9 @@ set hlsearch
 set incsearch
 " case-insensitive search
 set ignorecase
+
+" adjust letter-case with auto-completion
+set infercase
 
 " underline on where cursor is
 set cursorline
@@ -55,6 +60,9 @@ set number
 
 " enable to hide modified buffers without :write
 set hidden
+
+" add current path with fuzzy search
+set path+=**
 
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
