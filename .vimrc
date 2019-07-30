@@ -11,10 +11,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   " repeat vim-surround
   Plug 'tpope/vim-repeat'
-  " golanguage support
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   " git support
   Plug 'tpope/vim-fugitive'
+  " golanguage support
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -31,8 +31,11 @@ set incsearch
 " case-insensitive search
 set ignorecase
 
+" add current path with fuzzy search
+set path+=**
 
-" ======= appearances ====== 
+
+" ======= appearance ====== 
 " underline on where cursor is
 set cursorline
 " print the line number in front of each lines
@@ -53,13 +56,7 @@ set wildmenu
 set wildmode=longest,full
 
 
-" file encodings to use
-set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
-" enable to hide modified buffers without :write
-set hidden
-" add current path with fuzzy search
-set path+=**
-
+" ======= completion ====== 
 " set spell check
 set spell
 set spelllang=en,cjk
@@ -67,15 +64,20 @@ set spelllang=en,cjk
 " adjust letter-case with auto-completion
 set infercase
 
+
+" ======= editing ====== 
 " tab length that appears
 set tabstop=4
 " width of indent (the size of tabstop is used)
 set shiftwidth=0
 " use spaces to insert a <TAB>
 set expandtab
-
 " backspacing over autoindent, line breaks, start of insert
 set backspace=indent,eol,start
+" file encodings to use
+set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
+" enable to hide modified buffers without :write
+set hidden
 
 
 " ======= colors ====== 
