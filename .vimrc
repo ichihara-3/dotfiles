@@ -94,6 +94,8 @@ set backspace=indent,eol,start
 set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
 " enable to hide modified buffers without :write
 set hidden
+" open new buffer light side when :vsplit
+set splitright
 
 
 " ======= colors ====== 
