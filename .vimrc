@@ -23,6 +23,9 @@ syntax enable
 " enable filetype detection, filetype plugin, indent file
 filetype plugin indent on
 
+" set colorscheme
+colorscheme slate
+
 " highlight search
 set hlsearch
 " incremental search
@@ -69,6 +72,23 @@ set hidden
 
 " add current path with fuzzy search
 set path+=**
+
+" set spell check
+set spell
+set spelllang=en,cjk
+
+" change spell check highlighting to underline
+highlight clear SpellBad
+highlight SpellBad cterm=underline
+
+highlight clear SpellCap
+highlight SpellCap cterm=underline,bold
+
+highlight clear SpellRare
+highlight SpellRare cterm=underline
+
+" set Popup menu color to: Gray(7)
+highlight Pmenu ctermbg=7
 
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
