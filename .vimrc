@@ -13,9 +13,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 " golanguage support
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" git support
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
-
 
 " enable syntax highlighting
 syntax enable
@@ -34,6 +35,11 @@ set infercase
 
 " underline on where cursor is
 set cursorline
+
+" use ambiguous width font with twice of ascii's. 
+" e.g. Japanese Fonts びむ
+" Only effective when 'encoding' is "utf-8"
+set ambiwidth=double
 
 " show typing commands and counts of selected area
 set showcmd
@@ -66,3 +72,4 @@ set path+=**
 
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
+
