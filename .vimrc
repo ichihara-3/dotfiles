@@ -13,6 +13,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-repeat'
   " git support
   Plug 'tpope/vim-fugitive'
+  " pretty statusline
+  Plug 'itchyny/lightline.vim'
   " golanguage support
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -51,6 +53,20 @@ set ambiwidth=double
 set showcmd
 " always show a status line
 set laststatus=2
+" mode in status line is no longer needed since lightline shows it
+set noshowmode
+" show lines and columns
+" set ruler
+" statusline
+" %F: Full path to the file
+" %m: modify flag:: modifiable -> + / unmodifilable -> -
+" %=: right aligned
+" %y: filetype
+" %c: column number
+" %l: current line number
+" %L: number of lines of the fille
+" set statusline=%F%m%=%y[ENC=%{&fileencoding}]\ \ %c\ [%l/%L]
+
 " complete longest common string, then start wildmenu
 set wildmenu
 set wildmode=longest,full
