@@ -1,8 +1,14 @@
-" plugin management
-" with junegunn/vim-plug
+" plugin management with junegunn/vim-plug
 " To use vim-plug, install the plugin into the autoload directory
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "
+" automatically load vim-plug if not installed
+let s:plug_path = glob('~/.vim/autoload/plug.vim')
+if !file_readable(s:plug_path)
+  echo 'installing vim-plug...'
+  call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+endif
+
 call plug#begin('~/.vim/plugged')
 
   " comment out / uncomment easily
@@ -118,3 +124,4 @@ highlight Pmenu ctermbg=7
 " ======= key mappings ====== 
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
+
