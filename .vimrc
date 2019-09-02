@@ -9,6 +9,8 @@ if !file_readable(s:plug_path)
   call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
 endif
 
+" ======= plugins ====== 
+" to install plugins bellow, call :PlugInstall after opening the vim.
 call plug#begin('~/.vim/plugged')
 
   " comment out / uncomment easily
@@ -102,6 +104,10 @@ set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
 set hidden
 " open new buffer light side when :vsplit
 set splitright
+" open new buffer below current one when :split
+set splitbelow
+" automatically reload the editing file after the file has externally changed.
+set autoread
 
 
 " ======= colors ====== 
