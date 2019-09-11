@@ -145,7 +145,7 @@ if executable('clang')
   " auto format after saving the file. clang-format must be installed.
   if executable('clang-format')
     let g:clang_format_auto = 1
-  elseif
+  else
     let g:clang_format_auto = 0
   endif
   " Google style format
