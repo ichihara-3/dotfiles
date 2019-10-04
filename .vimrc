@@ -28,6 +28,18 @@ call plug#begin('~/.vim/plugged')
   " clang support. clang and clang-format should be installed.
   Plug 'justmao945/vim-clang'
 
+  " extended dark-powered completion
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/deoplete.nvim'
+    " deoplete requirements for vim 8. 
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    " You may need install or upgrade novim-python to ver0.3.0+
+    " pip3 install --user --upgrade pynvim
+  endif
+
 call plug#end()
 
 " enable syntax highlighting
@@ -134,7 +146,14 @@ highlight Pmenu ctermbg=7
 nnoremap <ESC><ESC> :noh<CR>
 
 
-" ======= vim-clang ====== 
+" =============================== 
+"         plugin settings        
+" =============================== 
+
+" ======= deoplete =======
+let g:deoplete#enable_at_startup = 1
+
+" ======= vim-clang =======
 " vim-clang settings
 " to use vim-clang, clang must be installed.
 if executable('clang')
