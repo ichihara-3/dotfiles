@@ -104,7 +104,9 @@ set infercase
 
 
 " ======= editing ====== 
-" tab length that appears
+" to aware modeline settings
+set modeline
+" tab length that used
 set tabstop=4
 " width of indent (the size of tabstop is used)
 set shiftwidth=0
@@ -122,6 +124,8 @@ set splitright
 set splitbelow
 " automatically reload the editing file after the file has externally changed.
 set autoread
+" Allow virtual editing in Visual block mode.
+set virtualedit=block
 
 
 " ======= colors ====== 
@@ -171,7 +175,6 @@ if executable('clang')
   let g:clang_format_style = 'Google'
   " check syntax when saving the file.
   let g:clang_check_syntax_auto = 1
-else
-  echo 'clang is not installed... options for vim-clang is not set...'
 endif
 
+" vim: set ai bs=indent,eol,start ts=2 ambw=double:
