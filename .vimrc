@@ -23,6 +23,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   " pretty statusline
   Plug 'itchyny/lightline.vim'
+  " fuzzy file finder
+  Plug 'junegunn/fzf'
   " golanguage support
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   " clang support. clang and clang-format should be installed.
@@ -146,8 +148,12 @@ highlight Pmenu ctermbg=7
 
 
 " ======= key mappings ====== 
+" set mapleader to <space> key
+let mapleader = "\<Space>"
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
+" fuzzy search files
+nnoremap <leader><Space> :FZF --reverse<CR>
 
 
 " =============================== 
