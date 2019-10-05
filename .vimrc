@@ -1,5 +1,5 @@
 " plugin management with junegunn/vim-plug
-" To use vim-plug, install the plugin into the autoload directory
+" To use vim-plug, install the plugin into the autoload directory 
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "
 " automatically load vim-plug if not installed
@@ -26,9 +26,9 @@ call plug#begin('~/.vim/plugged')
   " fuzzy file finder
   Plug 'junegunn/fzf'
   " golanguage support
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': ['go'] }
   " clang support. clang and clang-format should be installed.
-  Plug 'justmao945/vim-clang'
+  Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
 
   " extended dark-powered completion
   if has('nvim')
@@ -150,10 +150,17 @@ highlight Pmenu ctermbg=7
 " ======= key mappings ====== 
 " set mapleader to <space> key
 let mapleader = "\<Space>"
+" fuzzy search files
+nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
-" fuzzy search files
-nnoremap <leader><Space> :FZF --reverse<CR>
+" new tab
+nnoremap <silent> <leader>t :tabnew<CR>
+" next tab
+nnoremap <silent> <leader>n :tabnext<CR>
+" previous tab
+nnoremap <silent> <leader>p :tabprevious<CR>
+
 
 
 " =============================== 
@@ -162,6 +169,15 @@ nnoremap <leader><Space> :FZF --reverse<CR>
 
 " ======= deoplete =======
 let g:deoplete#enable_at_startup = 1
+
+" ======= fzf =======
+" layout
+let g:fzf_layout = { 'left' : '~30%'}
+" keybindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
 " ======= vim-clang =======
 " vim-clang settings
