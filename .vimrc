@@ -186,7 +186,7 @@ if executable('clang')
   " use c11 specs.
   let g:clang_c_options = '-std=c11'
   " use c++17(c++1z), libc++, the strict syntax checking with ISO C++
-  let g:clang_cpp_options = '-std=c++1z -stdlib=libc++ -pedantic-errors'
+  let g:clang_cpp_options = '-std=c++17 -stdlib=libc++ -pedantic-errors'
   " auto format after saving the file. clang-format must be installed.
   if executable('clang-format')
     let g:clang_format_auto = 1
