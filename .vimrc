@@ -34,7 +34,7 @@ call plug#begin('~/.vim/plugged')
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   else
-    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': 'pip3 install --user --upgrade pynvim' }
     " deoplete requirements for vim 8. 
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
@@ -128,6 +128,8 @@ set splitbelow
 set autoread
 " Allow virtual editing in Visual block mode.
 set virtualedit=block
+" turn off bells
+set belloff=all
 
 
 " ======= colors ====== 
@@ -154,6 +156,8 @@ let mapleader = "\<Space>"
 nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
+
+" tabs
 " new tab
 nnoremap <silent> <leader>t :tabnew<CR>
 " next tab
@@ -161,11 +165,33 @@ nnoremap <silent> <leader>n :tabnext<CR>
 " previous tab
 nnoremap <silent> <leader>p :tabprevious<CR>
 
+" window
+" split virtical
+nnoremap <leader>v :vs<Space>
+" close window
+nnoremap <silent> <leader>x :close<CR>
+
+" filer
+nnoremap <leader>f :Vexplore<CR>
+
 
 
 " =============================== 
 "         plugin settings        
 " =============================== 
+
+" ======= netrw =======
+" window size of netrw
+let g:netrw_winsize = 25
+" hide netrw direcory banner
+let g:netrw_banner = 0
+" tree view
+let g:netrw_liststyle = 3
+" open in previous window
+let g:netrw_browse_split = 4
+" open left
+let g:netrw_altv = 1
+
 
 " ======= deoplete =======
 let g:deoplete#enable_at_startup = 1
