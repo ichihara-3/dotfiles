@@ -1,5 +1,5 @@
 " plugin management with junegunn/vim-plug
-" To use vim-plug, install the plugin into the autoload directory 
+" To use vim-plug, install the plugin into the autoload directory
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "
 " automatically load vim-plug if not installed
@@ -9,7 +9,9 @@ if !file_readable(s:plug_path)
   call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
 endif
 
-" ======= plugins ====== 
+set pyxversion=3
+
+" ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
 call plug#begin('~/.vim/plugged')
 
@@ -29,13 +31,30 @@ call plug#begin('~/.vim/plugged')
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': ['go'] }
   " clang support. clang and clang-format should be installed.
   Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
+  " typescript support.
+  " syntax highlight
+  Plug 'leafgarland/typescript-vim', { 'for': ['ts'] }
+  " auto completion
+  Plug 'Quramy/tsuquyomi', { 'for': ['ts', 'vue'] }
+  " html tags auto completion
+  Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
+  " html5 syntax highlighting
+  Plug 'othree/html5.vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
+  " css3 syntax highlighting
+  Plug 'hail2u/vim-css3-syntax', { 'for' : ['css', 'html', 'vue'] }
 
-  " extended dark-powered completion
+  " extended dark-powered tools
   if has('nvim')
+    " auto completion
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " dark powered unite
+    Plug 'Shougo/denite.nvim'
   else
+    " auto completion
     Plug 'Shougo/deoplete.nvim', { 'do': 'pip3 install --user --upgrade pynvim' }
-    " deoplete requirements for vim 8. 
+    " dark powered unite
+    Plug 'Shougo/denite.nvim'
+    " deoplete requirements for vim 8.
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
     " You may need install or upgrade novim-python to ver0.3.0+
@@ -49,7 +68,7 @@ syntax enable
 " enable filetype detection, filetype plugin, indent file
 filetype plugin indent on
 
-" ======= search ====== 
+" ======= search ======
 " highlight search
 set hlsearch
 " incremental search
@@ -61,18 +80,18 @@ set ignorecase
 set path+=**
 
 
-" ======= appearance ====== 
+" ======= appearance ======
 " underline on where cursor is
 set cursorline
 " print the line number in front of each lines
 set number
-" use ambiguous width font with twice of ascii's. 
+" use ambiguous width font with twice of ascii's.
 " e.g. Japanese Fonts びむ
 " Only effective when 'encoding' is "utf-8"
 set ambiwidth=double
 
 
-" ======= status ====== 
+" ======= status ======
 " show typing commands and counts of selected area
 set showcmd
 " always show a status line
@@ -96,7 +115,7 @@ set wildmenu
 set wildmode=longest,full
 
 
-" ======= completion ====== 
+" ======= completion ======
 " set spell check
 set spell
 set spelllang=en,cjk
@@ -105,7 +124,7 @@ set spelllang=en,cjk
 set infercase
 
 
-" ======= editing ====== 
+" ======= editing ======
 " to aware modeline settings
 set modeline
 " tab length that used
@@ -120,7 +139,7 @@ set backspace=indent,eol,start
 set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
 " enable to hide modified buffers without :write
 set hidden
-" open new buffer light side when :vsplit
+" open new buffer right side when :vsplit
 set splitright
 " open new buffer below current one when :split
 set splitbelow
@@ -130,9 +149,11 @@ set autoread
 set virtualedit=block
 " turn off bells
 set belloff=all
+" enable mouse
+set mouse=a
 
 
-" ======= colors ====== 
+" ======= colors ======
 " set colorscheme
 colorscheme slate
 " change spell check highlighting to underline
@@ -149,10 +170,14 @@ highlight SpellRare cterm=underline
 highlight Pmenu ctermbg=7
 
 
-" ======= key mappings ====== 
+" ======= key mappings ======
 " set mapleader to <space> key
 let mapleader = "\<Space>"
-" fuzzy search files
+
+" edit vimrc
+nnoremap <leader>s :edit ~/.vimrc<CR>
+
+" fuzzy search files (fzf)
 nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
@@ -174,11 +199,33 @@ nnoremap <silent> <leader>x :close<CR>
 " filer
 nnoremap <leader>f :Vexplore<CR>
 
+" fugitive(git)
+" Gstatus
+nnoremap <leader>gs :Gstatus<CR>
+" Gcommit
+nnoremap <leader>gc :Gcommit<CR>
+" Gpush
+nnoremap <leader>gp :Gpush<CR>
 
 
-" =============================== 
-"         plugin settings        
-" =============================== 
+" ===============================
+"   filetype specified settings
+" ===============================
+
+augroup FileTypeIndent
+  autocmd!
+  autocmd FileType html,js,ts,css,vue,App,yaml,yaml setlocal tabstop=2
+augroup END
+
+" ===============================
+"   autocommands
+" ===============================
+
+autocmd BufWritePre * :%s/\s\+$//ge
+
+" ===============================
+"         plugin settings
+" ===============================
 
 " ======= netrw =======
 " window size of netrw
@@ -195,6 +242,8 @@ let g:netrw_altv = 1
 
 " ======= deoplete =======
 let g:deoplete#enable_at_startup = 1
+
+" ======= denite.nvim =======
 
 " ======= fzf =======
 " layout
@@ -225,4 +274,4 @@ if executable('clang')
   let g:clang_check_syntax_auto = 1
 endif
 
-" vim: set ai bs=indent,eol,start ts=2 ambw=double:
+" vim: set ai bs=indent,eol,start ts=2 sw=2 ambw=double:
