@@ -175,13 +175,18 @@ highlight SpellRare cterm=underline
 " set Popup menu color to: Gray(7)
 highlight Pmenu ctermbg=7
 
+" vimdiff scheme colors
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
 " ======= key mappings ======
 " set mapleader to <space> key
 let mapleader = "\<Space>"
 
 " edit vimrc
-nnoremap <leader>s :edit ~/.vimrc<CR>
+nnoremap <leader>s :edit ~/repos/ichihara-3/dotfiles/.vimrc<CR>
 
 " fuzzy search files (fzf)
 nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
@@ -207,11 +212,13 @@ nnoremap <leader>f :Vexplore<CR>
 
 " fugitive(git)
 " Gstatus
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gs :Gstatus<CR>
 " Gcommit
-nnoremap <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
 " Gpush
-nnoremap <leader>gp :Gpush<CR>
+nnoremap <silent> <leader>gp :Gpush<CR>
+" Gdiff
+nnoremap <silent> <leader>gd :Gdiff<CR>
 
 
 " ===============================
