@@ -23,6 +23,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-repeat'
   " git support
   Plug 'tpope/vim-fugitive'
+  " show git diff in the sign column
+  Plug 'airblade/vim-gitgutter'
   " pretty statusline
   Plug 'itchyny/lightline.vim'
   " fuzzy file finder
@@ -89,6 +91,10 @@ set number
 " e.g. Japanese Fonts びむ
 " Only effective when 'encoding' is "utf-8"
 set ambiwidth=double
+" vim update time span (default 4000ms)
+" set shorter for vim-gitgutter:
+"   https://github.com/airblade/vim-gitgutter#getting-started
+set updatetime=100
 
 
 " ======= status ======
