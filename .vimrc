@@ -29,8 +29,12 @@ call plug#begin('~/.vim/plugged')
   Plug 'itchyny/lightline.vim'
   " fuzzy file finder
   Plug 'junegunn/fzf'
+  " undo tree
+  Plug 'mbbill/undotree'
+
+  " ====== languages support ======
   " golanguage support
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': ['go'] }
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   " clang support. clang and clang-format should be installed.
   Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
   " typescript support.
@@ -131,6 +135,10 @@ set infercase
 
 
 " ======= editing ======
+" undo directory
+set undodir=~/.vim/undo/
+" enable undo file
+set undofile
 " to aware modeline settings
 set modeline
 " tab length that used
@@ -157,7 +165,6 @@ set virtualedit=block
 set belloff=all
 " enable mouse
 set mouse=a
-
 
 " ======= colors ======
 " set colorscheme
@@ -200,6 +207,9 @@ nnoremap <silent> <leader>t :tabnew<CR>
 nnoremap <silent> <leader>n :tabnext<CR>
 " previous tab
 nnoremap <silent> <leader>p :tabprevious<CR>
+
+" terminal
+nnoremap <silent> <leader>T :terminal<CR>
 
 " window
 " split virtical
