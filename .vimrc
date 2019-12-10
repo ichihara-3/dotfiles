@@ -1,74 +1,90 @@
 " plugin management with junegunn/vim-plug
 " To use vim-plug, install the plugin into the autoload directory
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"
-" automatically load vim-plug if not installed
+
+" check if the plugin manager is installed
 let s:plug_path = glob('~/.vim/autoload/plug.vim')
-if !file_readable(s:plug_path)
-  echo 'installing vim-plug...'
-  call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+if file_readable(s:plug_path)
+  let g:vim_plug_is_installed = 1
+else
+  let g:vim_plug_is_installed = 0
+  echomsg 'vim plug is not installed.'
+  echomsg 'call :InstallPlug to get vim-plug'
 endif
+
+function! s:install_plug()
+  if !g:vim_plug_is_installed
+    echo 'installing vim-plug...'
+    call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+  else
+    echo 'vim-plug is already installed'
+  endif
+endfunction
+
+command! InstallPlug call s:install_plug()
 
 set pyxversion=3
 
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
-call plug#begin('~/.vim/plugged')
+if vim_plug_is_installed
+  call plug#begin('~/.vim/plugged')
 
-  " comment out / uncomment easily
-  Plug 'tpope/vim-commentary'
-  " yank, paste, change surroundings like ", ', (), {}, <tags>
-  Plug 'tpope/vim-surround'
-  " repeat vim-surround
-  Plug 'tpope/vim-repeat'
-  " git support
-  Plug 'tpope/vim-fugitive'
-  " show git diff in the sign column
-  Plug 'airblade/vim-gitgutter'
-  " pretty statusline
-  Plug 'itchyny/lightline.vim'
-  " fuzzy file finder
-  Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim'
-  " undo tree
-  Plug 'mbbill/undotree'
+    " comment out / uncomment easily
+    Plug 'tpope/vim-commentary'
+    " yank, paste, change surroundings like ", ', (), {}, <tags>
+    Plug 'tpope/vim-surround'
+    " repeat vim-surround
+    Plug 'tpope/vim-repeat'
+    " git support
+    Plug 'tpope/vim-fugitive'
+    " show git diff in the sign column
+    Plug 'airblade/vim-gitgutter'
+    " pretty statusline
+    Plug 'itchyny/lightline.vim'
+    " fuzzy file finder
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    " undo tree
+    Plug 'mbbill/undotree'
 
-  " ====== languages support ======
-  " golanguage support
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-  " clang support. clang and clang-format should be installed.
-  Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
-  " typescript support.
-  " syntax highlight
-  Plug 'leafgarland/typescript-vim', { 'for': ['ts'] }
-  " auto completion
-  Plug 'Quramy/tsuquyomi', { 'for': ['ts', 'vue'] }
-  " html tags auto completion
-  Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
-  " html5 syntax highlighting
-  Plug 'othree/html5.vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
-  " css3 syntax highlighting
-  Plug 'hail2u/vim-css3-syntax', { 'for' : ['css', 'html', 'vue'] }
-
-  " extended dark-powered tools
-  if has('nvim')
+    " ====== languages support ======
+    " golanguage support
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    " clang support. clang and clang-format should be installed.
+    Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
+    " typescript support.
+    " syntax highlight
+    Plug 'leafgarland/typescript-vim', { 'for': ['ts'] }
     " auto completion
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " dark powered unite
-    Plug 'Shougo/denite.nvim'
-  else
-    " auto completion
-    Plug 'Shougo/deoplete.nvim', { 'do': 'pip3 install --user --upgrade pynvim' }
-    " dark powered unite
-    Plug 'Shougo/denite.nvim'
-    " deoplete requirements for vim 8.
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    " You may need install or upgrade novim-python to ver0.3.0+
-    " pip3 install --user --upgrade pynvim
-  endif
+    Plug 'Quramy/tsuquyomi', { 'for': ['ts', 'vue'] }
+    " html tags auto completion
+    Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
+    " html5 syntax highlighting
+    Plug 'othree/html5.vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
+    " css3 syntax highlighting
+    Plug 'hail2u/vim-css3-syntax', { 'for' : ['css', 'html', 'vue'] }
 
-call plug#end()
+    " extended dark-powered tools
+    if has('nvim')
+      " auto completion
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      " dark powered unite
+      Plug 'Shougo/denite.nvim'
+    else
+      " auto completion
+      Plug 'Shougo/deoplete.nvim', { 'do': 'pip3 install --user --upgrade pynvim' }
+      " dark powered unite
+      Plug 'Shougo/denite.nvim'
+      " deoplete requirements for vim 8.
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+      " You may need install or upgrade novim-python to ver0.3.0+
+      " pip3 install --user --upgrade pynvim
+    endif
+
+  call plug#end()
+endif
 
 " utility to check if whether the plugin is installed
 function! s:PluginIsInstalled(name)
