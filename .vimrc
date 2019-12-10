@@ -29,6 +29,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'itchyny/lightline.vim'
   " fuzzy file finder
   Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
   " undo tree
   Plug 'mbbill/undotree'
 
@@ -68,6 +69,16 @@ call plug#begin('~/.vim/plugged')
   endif
 
 call plug#end()
+
+" utility to check if whether the plugin is installed
+function! s:PluginIsInstalled(name)
+  if !exists('g:plugs')
+    return 0
+  endif
+
+  return has_key(g:plugs, a:name) ? isdirectory(g:plugs[a:name].dir) : 0
+endfunction
+
 
 " enable syntax highlighting
 syntax enable
@@ -196,7 +207,20 @@ let mapleader = "\<Space>"
 nnoremap <leader>s :edit ~/repos/ichihara-3/dotfiles/.vimrc<CR>
 
 " fuzzy search files (fzf)
-nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
+if s:PluginIsInstalled('fzf.vim') && s:PluginIsInstalled('fzf')
+  nnoremap <silent> <leader><Space><Space> :FZF --reverse --multi<CR>
+  " fuzzy search buffers
+  nnoremap <silent> <leader><Space>b :Buffers<CR>
+  " fuzzy search lines
+  nnoremap <silent> <leader><Space>l :BLines<CR>
+  " fuzzy search buffers history
+  nnoremap <silent> <leader><Space>h :History<CR>
+  " command history
+  nnoremap <silent> <leader><Space>c :History:<CR>
+  cnoremap <silent> <C-p> <C-u>History:<CR>
+endif
+
+
 " turn off highlight with typing Esc Key twice
 nnoremap <ESC><ESC> :noh<CR>
 
@@ -221,15 +245,20 @@ nnoremap <silent> <leader>x :close<CR>
 nnoremap <leader>f :Vexplore<CR>
 
 " fugitive(git)
-" Gstatus
-nnoremap <silent> <leader>gs :Gstatus<CR>
-" Gcommit
-nnoremap <silent> <leader>gc :Gcommit<CR>
-" Gpush
-nnoremap <silent> <leader>gp :Gpush<CR>
-" Gdiff
-nnoremap <silent> <leader>gd :Gdiff<CR>
+if s:PluginIsInstalled('vim-fugitive')
+  " Gstatus
+  nnoremap <silent> <leader>gs :Gstatus<CR>
+  " Gcommit
+  nnoremap <silent> <leader>gc :Gcommit<CR>
+  " Gpush
+  nnoremap <silent> <leader>gp :Gpush<CR>
+  " Gdiff
+  nnoremap <silent> <leader>gd :Gdiff<CR>
+endif
 
+" ======= commands ======
+" source current file
+command! Rc source %
 
 " ===============================
 "   filetype specified settings
@@ -237,7 +266,7 @@ nnoremap <silent> <leader>gd :Gdiff<CR>
 
 augroup FileTypeIndent
   autocmd!
-  autocmd FileType html,js,ts,css,vue,App,yaml,yaml setlocal tabstop=2
+  autocmd FileType vim,html,js,ts,css,vue,App,yaml,yaml setlocal tabstop=2
 augroup END
 
 " ===============================
@@ -264,23 +293,27 @@ let g:netrw_altv = 1
 
 
 " ======= deoplete =======
-let g:deoplete#enable_at_startup = 1
+if s:PluginIsInstalled('deoplete.nvim')
+  let g:deoplete#enable_at_startup = 1
+endif
 
 " ======= denite.nvim =======
 
 " ======= fzf =======
-" layout
-let g:fzf_layout = { 'left' : '~30%'}
-" keybindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+if s:PluginIsInstalled('fzf')
+  " layout
+  let g:fzf_layout = { 'left' : '~30%'}
+  " keybindings
+  let g:fzf_action = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit' }
+endif
 
 " ======= vim-clang =======
 " vim-clang settings
 " to use vim-clang, clang must be installed.
-if executable('clang')
+if executable('clang') && s:PluginIsInstalled('vim-clang')
   " use c11 specs.
   let g:clang_c_options = '-std=c11'
   " use c++17(c++1z), libc++, the strict syntax checking with ISO C++
