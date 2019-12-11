@@ -194,6 +194,11 @@ set belloff=all
 " enable mouse
 set mouse=a
 
+augroup PreWriting
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//ge
+augroup END
+
 " ======= colors ======
 " define color settings before set color schema
 function! DefineMyColors()
@@ -297,12 +302,6 @@ augroup FileTypeIndent
   autocmd!
   autocmd FileType vim,html,js,ts,css,vue,App,yaml,yaml setlocal tabstop=2
 augroup END
-
-" ===============================
-"   autocommands
-" ===============================
-
-autocmd BufWritePre * :%s/\s\+$//ge
 
 " ===============================
 "         plugin settings
