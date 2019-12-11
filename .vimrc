@@ -87,7 +87,7 @@ if vim_plug_is_installed
   call plug#end()
 endif
 
-" utility to check if whether the plugin is installed
+" utility to check if the plugin is installed
 function! s:PluginIsInstalled(name)
   if !exists('g:plugs')
     return 0
