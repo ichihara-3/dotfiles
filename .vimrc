@@ -16,6 +16,7 @@ function! s:install_plug()
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    source ~/.vimrc
   else
     echo 'vim-plug is already installed'
   endif
@@ -220,56 +221,56 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 let mapleader = "\<Space>"
 
 " edit vimrc
-nnoremap <leader>s :edit ~/repos/ichihara-3/dotfiles/.vimrc<CR>
+nnoremap <leader>s :<C-u>edit ~/repos/ichihara-3/dotfiles/.vimrc<CR>
 
 " fuzzy search files (fzf)
 if s:PluginIsInstalled('fzf.vim') && s:PluginIsInstalled('fzf')
-  nnoremap <silent> <leader><Space><Space> :FZF --reverse --multi<CR>
+  nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
   " fuzzy search buffers
-  nnoremap <silent> <leader><Space>b :Buffers<CR>
+  nnoremap <silent> <leader>b :<C-u>Buffers<CR>
   " fuzzy search lines
-  nnoremap <silent> <leader><Space>l :BLines<CR>
+  nnoremap <silent> <leader>l :<C-u>BLines<CR>
   " fuzzy search buffers history
-  nnoremap <silent> <leader><Space>h :History<CR>
+  nnoremap <silent> <leader>h :<C-u>History<CR>
   " command history
-  nnoremap <silent> <leader><Space>c :History:<CR>
+  nnoremap <silent> <leader>c :<C-u>History:<CR>
   cnoremap <silent> <C-p> <C-u>History:<CR>
 endif
 
 
 " turn off highlight with typing Esc Key twice
-nnoremap <ESC><ESC> :noh<CR>
+nnoremap <ESC><ESC> :<C-u>noh<CR>
 
 " tabs
 " new tab
-nnoremap <silent> <leader>t :tabnew<CR>
+nnoremap <silent> <leader>t :<C-u>tabnew<CR>
 " next tab
-nnoremap <silent> <leader>n :tabnext<CR>
+nnoremap <silent> <leader>n :<C-u>tabnext<CR>
 " previous tab
-nnoremap <silent> <leader>p :tabprevious<CR>
+nnoremap <silent> <leader>p :<C-u>tabprevious<CR>
 
 " terminal
-nnoremap <silent> <leader>T :terminal<CR>
+nnoremap <silent> <leader>T :<C-u>terminal<CR>
 
 " window
 " split virtical
-nnoremap <leader>v :vs<Space>
+nnoremap <leader>v :<C-u>vs<Space>
 " close window
-nnoremap <silent> <leader>x :close<CR>
+nnoremap <silent> <leader>x :<C-u>close<CR>
 
 " filer
-nnoremap <leader>f :Vexplore<CR>
+nnoremap <leader>f :<C-u>Vexplore<CR>
 
 " fugitive(git)
 if s:PluginIsInstalled('vim-fugitive')
   " Gstatus
-  nnoremap <silent> <leader>gs :Gstatus<CR>
+  nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
   " Gcommit
-  nnoremap <silent> <leader>gc :Gcommit<CR>
+  nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
   " Gpush
-  nnoremap <silent> <leader>gp :Gpush<CR>
+  nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
   " Gdiff
-  nnoremap <silent> <leader>gd :Gdiff<CR>
+  nnoremap <silent> <leader>gd :<C-u>Gdiff<CR>
 endif
 
 " ======= commands ======
