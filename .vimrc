@@ -193,6 +193,9 @@ set virtualedit=block
 set belloff=all
 " enable mouse
 set mouse=a
+" diff mode settings
+" vertical diff with fill lines
+set diffopt=filler,vertical
 
 augroup PreWriting
   autocmd!
@@ -287,7 +290,7 @@ if s:PluginIsInstalled('vim-fugitive')
   " Gpush
   nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
   " Gdiff
-  nnoremap <silent> <leader>gd :<C-u>Gdiff<CR>
+  nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 endif
 
 " ======= commands ======
