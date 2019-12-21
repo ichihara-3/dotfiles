@@ -65,6 +65,8 @@ if vim_plug_is_installed
     Plug 'othree/html5.vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
     " css3 syntax highlighting
     Plug 'hail2u/vim-css3-syntax', { 'for' : ['css', 'html', 'vue'] }
+    " toml syntax support
+    Plug 'cespare/vim-toml', { 'for' : ['toml'] }
 
     " extended dark-powered tools
     if has('nvim')
@@ -303,7 +305,7 @@ command! Rc source %
 
 augroup FileTypeIndent
   autocmd!
-  autocmd FileType vim,html,js,ts,css,vue,App,yaml,yaml setlocal tabstop=2
+  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml setlocal tabstop=2
 augroup END
 
 " ===============================
