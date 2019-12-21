@@ -1,3 +1,11 @@
+" I usually create symlink of to vimrc in dotfiles directory so that
+" to store real path of the vimrc is useful.
+function! s:GetVimrc ()
+  return resolve($MYVIMRC)
+endfunction
+
+let g:my_vimrc_file = s:GetVimrc()
+
 " plugin management with junegunn/vim-plug
 " To use vim-plug, install the plugin into the autoload directory
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -16,7 +24,7 @@ function! s:install_plug()
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-    source ~/.vimrc
+    exec "source" g:my_vimrc_file
   else
     echo 'vim-plug is already installed'
   endif
@@ -90,11 +98,13 @@ if vim_plug_is_installed
 endif
 
 " utility to check if the plugin is installed
-function! s:PluginIsInstalled(name)
+function! s:IsInstalled(name)
   if !exists('g:plugs')
     return 0
   endif
 
+  " The plugin name should exist in g:plugs dictionary
+  " if the plugin is already installed.
   return has_key(g:plugs, a:name) ? isdirectory(g:plugs[a:name].dir) : 0
 endfunction
 
@@ -243,10 +253,10 @@ colorscheme slate
 let mapleader = "\<Space>"
 
 " edit vimrc
-nnoremap <leader>s :<C-u>edit ~/repos/ichihara-3/dotfiles/.vimrc<CR>
+nnoremap <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 
 " fuzzy search files (fzf)
-if s:PluginIsInstalled('fzf.vim') && s:PluginIsInstalled('fzf')
+if s:IsInstalled('fzf.vim') && s:IsInstalled('fzf')
   nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
   " fuzzy search buffers
   nnoremap <silent> <leader>b :<C-u>Buffers<CR>
@@ -284,7 +294,7 @@ nnoremap <silent> <leader>x :<C-u>close<CR>
 nnoremap <leader>f :<C-u>Vexplore<CR>
 
 " fugitive(git)
-if s:PluginIsInstalled('vim-fugitive')
+if s:IsInstalled('vim-fugitive')
   " Gstatus
   nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
   " Gcommit
@@ -326,14 +336,14 @@ let g:netrw_altv = 1
 
 
 " ======= deoplete =======
-if s:PluginIsInstalled('deoplete.nvim')
+if s:IsInstalled('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
 endif
 
 " ======= denite.nvim =======
 
 " ======= fzf =======
-if s:PluginIsInstalled('fzf')
+if s:IsInstalled('fzf')
   " layout
   let g:fzf_layout = { 'left' : '~30%'}
   " keybindings
@@ -346,7 +356,7 @@ endif
 " ======= vim-clang =======
 " vim-clang settings
 " to use vim-clang, clang must be installed.
-if executable('clang') && s:PluginIsInstalled('vim-clang')
+if executable('clang') && s:IsInstalled('vim-clang')
   " use c11 specs.
   let g:clang_c_options = '-std=c11'
   " use c++17(c++1z), libc++, the strict syntax checking with ISO C++
