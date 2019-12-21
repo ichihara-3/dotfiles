@@ -39,6 +39,8 @@ set pyxversion=3
 if vim_plug_is_installed
   call plug#begin('~/.vim/plugged')
 
+    " vim Japanese version help
+    Plug 'vim-jp/vimdoc-ja'
     " comment out / uncomment easily
     Plug 'tpope/vim-commentary'
     " yank, paste, change surroundings like ", ', (), {}, <tags>
@@ -113,6 +115,9 @@ endfunction
 syntax enable
 " enable filetype detection, filetype plugin, indent file
 filetype plugin indent on
+
+" vim help languages
+set helplang=ja
 
 " ======= search ======
 " highlight search
