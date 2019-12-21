@@ -320,7 +320,7 @@ command! Rc source %
 
 augroup FileTypeIndent
   autocmd!
-  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml setlocal tabstop=2
+  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,sh setlocal tabstop=2
 augroup END
 
 " ===============================
