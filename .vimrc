@@ -213,6 +213,8 @@ set mouse=a
 " diff mode settings
 " vertical diff with fill lines
 set diffopt=filler,vertical
+" use clipboard
+set clipboard=unnamed,unnamedplus
 
 augroup PreWriting
   autocmd!
@@ -291,7 +293,7 @@ nnoremap <silent> <leader>T :<C-u>terminal<CR>
 
 " window
 " split virtical
-nnoremap <leader>v :<C-u>vs<Space>
+nnoremap <leader>v :<C-u>vs<CR>
 " close window
 nnoremap <silent> <leader>x :<C-u>close<CR>
 
