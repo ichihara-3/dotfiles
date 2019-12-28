@@ -75,10 +75,15 @@ if vim_plug_is_installed
     " asyncomplete
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/asyncomplete.vim'
+    " asyncomplete sources
+    " lsp
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " files/directories
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+
     " Language Server Protocols
     " vim-lsp
     Plug 'prabirshrestha/vim-lsp'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
     " LSP auto settings
     Plug 'mattn/vim-lsp-settings'
@@ -336,13 +341,6 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 
 
-" ======= deoplete =======
-if s:IsInstalled('deoplete.nvim')
-  let g:deoplete#enable_at_startup = 1
-endif
-
-" ======= denite.nvim =======
-
 " ======= fzf =======
 if s:IsInstalled('fzf')
   " layout
@@ -373,5 +371,14 @@ if executable('clang') && s:IsInstalled('vim-clang')
   " check syntax when saving the file.
   let g:clang_check_syntax_auto = 1
 endif
+
+" ======= asyncomplete settings =======
+" files
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
 
 " vim: set ai bs=indent,eol,start ts=2 sw=2 ambw=double:
