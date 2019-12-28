@@ -24,7 +24,8 @@ function! s:install_plug()
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-    exec "source" g:my_vimrc_file
+    echo 'finished!'
+    echo 'to install plugins, re-source ' . g:my_vimrc_file .' and call :PlugInstall'
   else
     echo 'vim-plug is already installed'
   endif
@@ -60,15 +61,8 @@ if vim_plug_is_installed
     Plug 'mbbill/undotree'
 
     " ====== languages support ======
-    " golanguage support
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
     " clang support. clang and clang-format should be installed.
     Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
-    " typescript support.
-    " syntax highlight
-    Plug 'leafgarland/typescript-vim', { 'for': ['ts'] }
-    " auto completion
-    Plug 'Quramy/tsuquyomi', { 'for': ['ts', 'vue'] }
     " html tags auto completion
     Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
     " html5 syntax highlighting
@@ -78,23 +72,17 @@ if vim_plug_is_installed
     " toml syntax support
     Plug 'cespare/vim-toml', { 'for' : ['toml'] }
 
-    " extended dark-powered tools
-    if has('nvim')
-      " auto completion
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-      " dark powered unite
-      Plug 'Shougo/denite.nvim'
-    else
-      " auto completion
-      Plug 'Shougo/deoplete.nvim', { 'do': 'pip3 install --user --upgrade pynvim' }
-      " dark powered unite
-      Plug 'Shougo/denite.nvim'
-      " deoplete requirements for vim 8.
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-      " You may need install or upgrade novim-python to ver0.3.0+
-      " pip3 install --user --upgrade pynvim
-    endif
+    " asyncomplete
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    " Language Server Protocols
+    " vim-lsp
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+    " LSP auto settings
+    Plug 'mattn/vim-lsp-settings'
+
 
   call plug#end()
 endif
@@ -317,12 +305,18 @@ endif
 command! Rc source %
 
 " ===============================
-"   filetype specified settings
+"   filetype specific settings
 " ===============================
 
 augroup FileTypeIndent
   autocmd!
   autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,sh setlocal tabstop=2
+augroup END
+
+" not to comment out on newline: r(when insert) o(when normal and type 'o' 'O')
+augroup NoNewCommentLine
+  autocmd!
+  autocmd FileType * setlocal formatoptions-=ro
 augroup END
 
 " ===============================
