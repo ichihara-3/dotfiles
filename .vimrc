@@ -259,14 +259,14 @@ nnoremap <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 if s:IsInstalled('fzf.vim') && s:IsInstalled('fzf')
   nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
   " fuzzy search buffers
-  nnoremap <silent> <leader>b :<C-u>Buffers<CR>
+  nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {"--reverse": 1})<CR>
   " fuzzy search lines
-  nnoremap <silent> <leader>l :<C-u>BLines<CR>
+  nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {"--reverse": 1})<CR>
   " fuzzy search buffers history
-  nnoremap <silent> <leader>h :<C-u>History<CR>
+  nnoremap <silent> <leader>h :<C-u>call fzf#vim#command_history(0)<CR>
   " command history
-  nnoremap <silent> <leader>c :<C-u>History:<CR>
-  cnoremap <silent> <C-p> <C-u>History:<CR>
+  nnoremap <silent> <leader>c :<C-u>call fzf#vim#history(0)<CR>
+  cnoremap <silent> <C-p> <C-u>call fzf#vim#history(0)<CR>
 endif
 
 
