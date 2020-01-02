@@ -33,8 +33,6 @@ endfunction
 
 command! InstallPlug call s:install_plug()
 
-set pyxversion=3
-
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
 if vim_plug_is_installed
@@ -255,7 +253,7 @@ colorscheme slate
 let mapleader = "\<Space>"
 
 " edit vimrc
-nnoremap <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
+nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 
 " fuzzy search files (fzf)
 if s:IsInstalled('fzf.vim') && s:IsInstalled('fzf')
@@ -273,7 +271,7 @@ endif
 
 
 " turn off highlight with typing Esc Key twice
-nnoremap <ESC><ESC> :<C-u>noh<CR>
+nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
 
 " tabs
 " new tab
@@ -288,12 +286,12 @@ nnoremap <silent> <leader>T :<C-u>terminal<CR>
 
 " window
 " split virtical
-nnoremap <leader>v :<C-u>vs<CR>
+nnoremap <silent> <leader>v :<C-u>vs<CR>
 " close window
 nnoremap <silent> <leader>x :<C-u>close<CR>
 
 " filer
-nnoremap <leader>f :<C-u>Vexplore<CR>
+nnoremap <silent> <leader>f :<C-u>Vexplore<CR>
 
 " fugitive(git)
 if s:IsInstalled('vim-fugitive')
