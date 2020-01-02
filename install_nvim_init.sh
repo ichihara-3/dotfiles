@@ -5,7 +5,7 @@ SOURCEDIR=$(cd $(dirname $0); pwd)/nvim
 CONFIGDIR=~/.config/nvim
 echo $SOURCEDIR
 
-if vim --version > /dev/null 2>&1; then
+if nvim --version > /dev/null 2>&1; then
 
   if ! [[ -e ${CONFIGDIR} ]]; then
     mkdir -p ${CONFIGDIR}
@@ -16,7 +16,7 @@ if vim --version > /dev/null 2>&1; then
   echo install: ln -s ${SOURCEDIR}/init.vim ${CONFIGDIR}/init.vim
   ln -sf ${SOURCEDIR}/init.vim ${CONFIGDIR}/init.vim
 else
-  echo vim not exists...
+  echo nvim not exists...
 fi
 
 echo finished!
