@@ -59,6 +59,8 @@ if vim_plug_is_installed
     Plug 'junegunn/fzf.vim'
     " undo tree
     Plug 'mbbill/undotree'
+    " enhance netrw
+    Plug 'tpope/vim-vinegar'
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
