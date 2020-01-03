@@ -486,12 +486,4 @@ function! MyMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
-function! MyCurrentTag()
-  return tagbar#currenttag('%s', '')
-endfunction
-
-function! MyCakephp()
-  return exists('*cake#buffer') ? cake#buffer('type') : ''
-endfunction
-
 " vim: set ai bs=indent,eol,start ts=2 sw=2 ambw=double:
