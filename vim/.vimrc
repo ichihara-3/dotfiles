@@ -249,6 +249,7 @@ augroup END
 colorscheme slate
 
 " ======= git ======
+
 function! s:switch (line)
   let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*$', '\1', '')
   echo l:branch
@@ -271,7 +272,6 @@ endfunction
 
 function! s:branches ()
   let l:current = trim(system("git branch --points-at=HEAD --format='%(refname:lstrip=2)'"))
-  echomsg 'git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' . l:current . '/d"'
   let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' . l:current . '/d"')
   return split(l:branches, '\n')
 endfunction
