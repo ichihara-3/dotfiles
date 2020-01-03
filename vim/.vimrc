@@ -260,6 +260,7 @@ function! s:switch (line)
     endif
   endif
   if v:shell_error == 0
+    edit
     echomsg 'switched to ::' . l:branch
   else
     echohl Warningmsg
