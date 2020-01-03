@@ -248,6 +248,40 @@ augroup END
 " set colorscheme
 colorscheme slate
 
+" ======= git ======
+function! s:switch (line)
+  let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*$', '\1', '')
+  echo l:branch
+  let l:result = system('git switch ' . l:branch)
+  if v:shell_error != 0
+    call system('git checkout ' . l:branch)
+    if v:shell_error != 0
+      call system('git -b checkout ' . l:branch)
+    endif
+  endif
+  if v:shell_error == 0
+    echomsg 'switched to ::' . l:branch
+  else
+    echohl Warningmsg
+    echomsg l:result
+    echohl None
+  endif
+endfunction
+
+function! s:branches ()
+  let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d"')
+  return split(l:branches, '\n')
+endfunction
+
+if s:IsInstalled('fzf')
+  function! s:git_switch ()
+    call fzf#run(fzf#wrap({
+    \ 'source': s:branches(),
+    \ 'sink': function('s:switch')
+    \ }))
+  endfunction
+endif
+
 " ======= key mappings ======
 " set mapleader to <space> key
 let mapleader = "\<Space>"
@@ -257,34 +291,6 @@ nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 
 " fuzzy search files (fzf)
 if s:IsInstalled('fzf.vim') && s:IsInstalled('fzf')
-
-  function! s:switch (line)
-    let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*', '\1', '')
-    call system('git switch' . l:branch)
-    if v:shell_error == 128
-      call system('git -c switch' . l:branch)
-    elseif v:shell_error != 0
-      call system('git checkout' . l:branch)
-      if v:shell_error != 0
-        call system('git -b checkout' . l:branch)
-      endif
-    endif
-    if v:shell_error != 0
-      echomsg 'switched to ::' . l:branch
-    endif
-  endfunction
-
-  function! s:branches ()
-    let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d"')
-    return split(l:branches, '\n')
-  endfunction
-
-  function! s:git_switch ()
-    call fzf#run(fzf#wrap({
-    \ 'source': s:branches(),
-    \ 'sink': function('s:switch')
-    \ }))
-  endfunction
 
   nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
   " fuzzy search buffers
