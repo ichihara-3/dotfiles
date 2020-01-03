@@ -257,16 +257,47 @@ nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 
 " fuzzy search files (fzf)
 if s:IsInstalled('fzf.vim') && s:IsInstalled('fzf')
+
+  function! s:switch (line)
+    let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*', '\1', '')
+    call system('git switch' . l:branch)
+    if v:shell_error == 128
+      call system('git -c switch' . l:branch)
+    elseif v:shell_error != 0
+      call system('git checkout' . l:branch)
+      if v:shell_error != 0
+        call system('git -b checkout' . l:branch)
+      endif
+    endif
+    if v:shell_error != 0
+      echomsg 'switched to ::' . l:branch
+    endif
+  endfunction
+
+  function! s:branches ()
+    let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d"')
+    return split(l:branches, '\n')
+  endfunction
+
+  function! s:git_switch ()
+    call fzf#run(fzf#wrap({
+    \ 'source': s:branches(),
+    \ 'sink': function('s:switch')
+    \ }))
+  endfunction
+
   nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
   " fuzzy search buffers
   nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {"--reverse": 1})<CR>
   " fuzzy search lines
   nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {"--reverse": 1})<CR>
   " fuzzy search buffers history
-  nnoremap <silent> <leader>h :<C-u>call fzf#vim#command_history(0)<CR>
+  nnoremap <silent> <leader>h :<C-u>call fzf#vim#history(0)<CR>
   " command history
-  nnoremap <silent> <leader>c :<C-u>call fzf#vim#history(0)<CR>
-  cnoremap <silent> <C-p> <C-u>call fzf#vim#history(0)<CR>
+  nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history(0)<CR>
+  cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history(0)<CR>
+
+  nnoremap <silent> <leader>gb :<C-u>call <SID>git_switch()<CR>
 endif
 
 
