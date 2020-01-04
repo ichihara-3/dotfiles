@@ -432,7 +432,7 @@ let g:lightline = {
       \   'left': [ ['mode', 'paste'], ['fugitive', 'filename'] ]
       \ },
       \ 'component': {
-      \   'lineinfo': ' %3l:%-2v',
+      \   'lineinfo': '%3l:%-2v',
       \ },
       \ 'component_function': {
       \   'modified': 'MyModified',
