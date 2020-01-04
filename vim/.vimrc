@@ -1,4 +1,4 @@
-" I usually create symlink of to vimrc in dotfiles directory so that
+" I usually create symlink to vimrc in dotfiles directory so that
 " to store real path of the vimrc is useful.
 function! s:GetVimrc ()
   return resolve($MYVIMRC)
@@ -62,7 +62,9 @@ if vim_plug_is_installed
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
-    Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
+    if executable('clang') && executable('clang-format')
+      Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
+    endif
     " html tags auto completion
     Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
     " html5 syntax highlighting
@@ -193,7 +195,7 @@ set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
 set hidden
 " open new buffer right side when :vsplit
 set splitright
-" open new buffer below current one when :split
+" open new buffer below when :split
 set splitbelow
 " automatically reload the editing file after the file has externally changed.
 set autoread
