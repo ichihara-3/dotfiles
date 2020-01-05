@@ -215,12 +215,18 @@ set mouse=a
 " vertical diff with fill lines
 set diffopt=filler,vertical
 " use clipboard
+
 set clipboard=unnamed,unnamedplus
 
 augroup PreWriting
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
+
+" check if buffers are modifed
+function! s:buffer_modified ()
+  return len(getbufinfo({'bufmodified': 1})) != 0
+endfunction
 
 " ======= colors ======
 " define color settings before set color schema
@@ -259,6 +265,13 @@ colorscheme slate
 " ======= git ======
 
 function! s:switch (line)
+  if buffer_modified()
+    echohl Warningmsg
+    echomsg 'some buffers has changed. save or discard them.'
+    echohl None
+    return
+  endif
+
   let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*$', '\1', '')
   echo l:branch
   let l:result = system('git switch ' . l:branch)
