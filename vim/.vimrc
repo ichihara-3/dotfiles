@@ -265,7 +265,7 @@ colorscheme slate
 " ======= git ======
 
 function! s:switch (line)
-  if buffer_modified()
+  if s:buffer_modified()
     echohl Warningmsg
     echomsg 'some buffers has changed. save or discard them.'
     echohl None
@@ -298,10 +298,16 @@ function! s:branches ()
 endfunction
 
 function! s:git_switch ()
-call fzf#run(fzf#wrap({
-\ 'source': s:branches(),
-\ 'sink': function('s:switch')
-\ }))
+  let l:cwd = getcwd()
+  let l:changeto = expand('%:p:h')
+  call chdir(l:changeto)
+
+  call fzf#run(fzf#wrap({
+  \ 'source': s:branches(),
+  \ 'sink': function('s:switch')
+  \ }))
+
+  call chdir(l:cwd)
 endfunction
 
 " ======= key mappings ======
