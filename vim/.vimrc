@@ -292,9 +292,7 @@ function! s:switch (line)
 endfunction
 
 function! s:branches ()
-  let l:current = trim(system("git branch --points-at=HEAD --format='%(refname:lstrip=2)'"))
-  echomsg l:current
-  echomsg 'git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' . l:current . '/d"'
+  let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
   let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' . l:current . '/d"')
   return split(l:branches, '\n')
 endfunction
