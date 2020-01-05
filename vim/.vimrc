@@ -6,9 +6,8 @@ endfunction
 
 let g:my_vimrc_file = s:GetVimrc()
 
+" ======= vim-plug ======
 " plugin management with junegunn/vim-plug
-" To use vim-plug, install the plugin into the autoload directory
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 " check if the plugin manager is installed
 let s:plug_path = glob('~/.vim/autoload/plug.vim')
@@ -20,12 +19,16 @@ else
   echomsg 'call :InstallPlug to get vim-plug'
 endif
 
+" install junegunn/vim-plug and add
 function! s:install_plug()
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    if exists('*configure_plugins')
+      call s:configure_plugins()
+    endif
     echo 'finished!'
-    echo 'to install plugins, re-source ' . g:my_vimrc_file .' and call :PlugInstall'
+    echo 'to install plugins, call :PlugInstall'
   else
     echo 'vim-plug is already installed'
   endif
@@ -35,7 +38,8 @@ command! InstallPlug call s:install_plug()
 
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
-if vim_plug_is_installed
+
+function s:configure_plugins()
   call plug#begin('~/.vim/plugged')
 
     " vim Japanese version help
@@ -92,6 +96,10 @@ if vim_plug_is_installed
 
 
   call plug#end()
+endfunction
+
+if vim_plug_is_installed
+  call s:configure_plugins()
 endif
 
 " utility to check if the plugin is installed
