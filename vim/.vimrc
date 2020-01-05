@@ -24,9 +24,7 @@ function! s:install_plug()
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-    if exists('*configure_plugins')
-      call s:configure_plugins()
-    endif
+    call s:configure_plugins()
     echo 'finished!'
     echo 'to install plugins, call :PlugInstall'
   else
@@ -286,14 +284,12 @@ function! s:branches ()
   return split(l:branches, '\n')
 endfunction
 
-if s:IsInstalled('fzf')
-  function! s:git_switch ()
-    call fzf#run(fzf#wrap({
-    \ 'source': s:branches(),
-    \ 'sink': function('s:switch')
-    \ }))
-  endfunction
-endif
+function! s:git_switch ()
+call fzf#run(fzf#wrap({
+\ 'source': s:branches(),
+\ 'sink': function('s:switch')
+\ }))
+endfunction
 
 " ======= key mappings ======
 " set mapleader to <space> key
@@ -303,21 +299,18 @@ let mapleader = "\<Space>"
 nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 
 " fuzzy search files (fzf)
-if s:IsInstalled('fzf.vim') && s:IsInstalled('fzf')
+nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
+" fuzzy search buffers
+nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {"--reverse": 1})<CR>
+" fuzzy search lines
+nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {"--reverse": 1})<CR>
+" fuzzy search buffers history
+nnoremap <silent> <leader>h :<C-u>call fzf#vim#history(0)<CR>
+" command history
+nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history(0)<CR>
+cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history(0)<CR>
 
-  nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
-  " fuzzy search buffers
-  nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {"--reverse": 1})<CR>
-  " fuzzy search lines
-  nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {"--reverse": 1})<CR>
-  " fuzzy search buffers history
-  nnoremap <silent> <leader>h :<C-u>call fzf#vim#history(0)<CR>
-  " command history
-  nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history(0)<CR>
-  cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history(0)<CR>
-
-  nnoremap <silent> <leader>gb :<C-u>call <SID>git_switch()<CR>
-endif
+nnoremap <silent> <leader>gb :<C-u>call <SID>git_switch()<CR>
 
 
 " turn off highlight with typing Esc Key twice
@@ -344,16 +337,14 @@ nnoremap <silent> <leader>x :<C-u>close<CR>
 nnoremap <silent> <leader>f :<C-u>Vexplore<CR>
 
 " fugitive(git)
-if s:IsInstalled('vim-fugitive')
-  " Gstatus
-  nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
-  " Gcommit
-  nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
-  " Gpush
-  nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
-  " Gdiff
-  nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
-endif
+" Gstatus
+nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
+" Gcommit
+nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
+" Gpush
+nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
+" Gdiff
+nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 
 " ======= commands ======
 " source current file
@@ -392,35 +383,31 @@ let g:netrw_altv = 1
 
 
 " ======= fzf =======
-if s:IsInstalled('fzf')
-  " layout
-  let g:fzf_layout = { 'left' : '~30%'}
-  " keybindings
-  let g:fzf_action = {
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-x': 'split',
-    \ 'ctrl-v': 'vsplit' }
-endif
+" layout
+let g:fzf_layout = { 'left' : '~30%'}
+" keybindings
+let g:fzf_action = {
+\ 'ctrl-t': 'tab split',
+\ 'ctrl-x': 'split',
+\ 'ctrl-v': 'vsplit' }
 
 " ======= vim-clang =======
 " vim-clang settings
 " to use vim-clang, clang must be installed.
-if executable('clang') && s:IsInstalled('vim-clang')
-  " use c11 specs.
-  let g:clang_c_options = '-std=c11'
-  " use c++17(c++1z), libc++, the strict syntax checking with ISO C++
-  let g:clang_cpp_options = '-std=c++17 -stdlib=libc++ -pedantic-errors'
-  " auto format after saving the file. clang-format must be installed.
-  if executable('clang-format')
-    let g:clang_format_auto = 1
-  else
-    let g:clang_format_auto = 0
-  endif
-  " Google style format
-  let g:clang_format_style = 'Google'
-  " check syntax when saving the file.
-  let g:clang_check_syntax_auto = 1
+" use c11 specs.
+let g:clang_c_options = '-std=c11'
+" use c++17(c++1z), libc++, the strict syntax checking with ISO C++
+let g:clang_cpp_options = '-std=c++17 -stdlib=libc++ -pedantic-errors'
+" auto format after saving the file. clang-format must be installed.
+if executable('clang-format')
+let g:clang_format_auto = 1
+else
+let g:clang_format_auto = 0
 endif
+" Google style format
+let g:clang_format_style = 'Google'
+" check syntax when saving the file.
+let g:clang_check_syntax_auto = 1
 
 " ======= asyncomplete settings =======
 " files
