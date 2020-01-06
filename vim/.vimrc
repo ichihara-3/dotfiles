@@ -272,7 +272,7 @@ function! s:switch (line)
     return
   endif
 
-  let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*$', '\1', '')
+  let l:branch = substitute(a:line, '^\s*\w{-}/\(\w*\)\s*.*$', '\1', '')
   echo l:branch
   let l:result = system('git switch ' . l:branch)
   if v:shell_error != 0
@@ -282,7 +282,7 @@ function! s:switch (line)
     endif
   endif
   if v:shell_error == 0
-    bufdo edit!
+    argdo edit!
     echomsg 'switched to ::' . l:branch
   else
     echohl Warningmsg
@@ -293,7 +293,7 @@ endfunction
 
 function! s:branches ()
   let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-  let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' . l:current . '/d"')
+  let l:branches = system('git branch |sed -e "/HEAD/d" -e "/->/d" -e "/' . escape(l:current, '/') . '/d"')
   return split(l:branches, '\n')
 endfunction
 
