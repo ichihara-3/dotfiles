@@ -272,7 +272,7 @@ function! s:switch (line)
     return
   endif
 
-  let l:branch = substitute(a:line, '^\s*\w*/\(\w*\)\s*.*$', '\1', '')
+  let l:branch = substitute(a:line, '^\s*\w\{-\}/\(\w*\)\s*$', '\1', '')
   echo l:branch
   let l:result = system('git switch ' . l:branch)
   if v:shell_error != 0
