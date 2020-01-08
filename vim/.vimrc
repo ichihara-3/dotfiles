@@ -61,6 +61,8 @@ function s:configure_plugins()
     Plug 'mbbill/undotree'
     " enhance netrw
     Plug 'tpope/vim-vinegar'
+    " Goyo mode
+    Plug 'junegunn/Goyo'
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
