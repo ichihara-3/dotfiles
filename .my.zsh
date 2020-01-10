@@ -10,3 +10,7 @@ export FZF_DEFAULT_OPTS="--height 40% --reverse --border"
 export FZF_CTRL_T_OPTS="--height 40% --reverse --border --preview 'cat {}'"
 
 alias pn='prompt -s $(prompt -l |tail -n 1 | tr " " "\n" | fzf)'
+
+autoload -Uz promptinit
+promptinit
+prompt powerlevel10k
