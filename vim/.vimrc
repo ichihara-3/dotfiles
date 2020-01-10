@@ -62,7 +62,7 @@ function s:configure_plugins()
     " enhance netrw
     Plug 'tpope/vim-vinegar'
     " Goyo mode
-    Plug 'junegunn/Goyo'
+    Plug 'junegunn/goyo.vim'
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
