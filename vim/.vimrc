@@ -78,19 +78,22 @@ function s:configure_plugins()
     " toml syntax support
     Plug 'cespare/vim-toml', { 'for' : ['toml'] }
 
+    " go
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
     " asyncomplete
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/asyncomplete.vim'
     " asyncomplete sources
-    " lsp
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
     " files/directories
     Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Buffer Completion
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
 
     " Language Server Protocols
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
     " vim-lsp
     Plug 'prabirshrestha/vim-lsp'
-
     " LSP auto settings
     Plug 'mattn/vim-lsp-settings'
 
@@ -432,11 +435,22 @@ let g:clang_check_syntax_auto = 1
 
 " ======= asyncomplete settings =======
 " files
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
     \ 'name': 'file',
     \ 'whitelist': ['*'],
     \ 'priority': 10,
     \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
+
+" buffers
+autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': [],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ 'config': {
+    \    'max_buffer_size': 5000000,
+    \  },
     \ }))
 
 
