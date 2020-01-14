@@ -10,13 +10,17 @@ let g:my_vimrc_file = s:GetVimrc()
 " plugin management with junegunn/vim-plug
 
 " check if the plugin manager is installed
-let s:plug_path = glob('~/.vim/autoload/plug.vim')
-if file_readable(s:plug_path)
-  let g:vim_plug_is_installed = 1
-else
-  let g:vim_plug_is_installed = 0
-  echomsg 'vim plug is not installed.'
-  echomsg 'call :InstallPlug to get vim-plug'
+
+if !exists('g:vim_plug_is_installed')
+
+  let s:plug_path = glob('~/.vim/autoload/plug.vim')
+  if file_readable(s:plug_path)
+    let g:vim_plug_is_installed = 1
+  else
+    let g:vim_plug_is_installed = 0
+    echomsg 'vim plug is not installed.'
+    echomsg 'call :InstallPlug to get vim-plug'
+  endif
 endif
 
 " install junegunn/vim-plug and add
@@ -25,6 +29,7 @@ function! s:install_plug()
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
     call s:configure_plugins()
+    let g:vim_plug_is_installed = 1
     echo 'finished!'
     echo 'to install plugins, call :PlugInstall'
   else
