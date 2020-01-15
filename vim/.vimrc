@@ -195,10 +195,11 @@ set infercase
 set undodir=~/.vim/undo/
 " enable undo file
 set undofile
-" to aware modeline settings
-set modeline
-" tab length that used
-set tabstop=4
+
+if &undofile && !isdirectory(&undodir)
+  call mkdir(&undodir)
+endif
+
 " width of indent (the size of tabstop is used)
 set shiftwidth=0
 " use spaces to insert a <TAB>
