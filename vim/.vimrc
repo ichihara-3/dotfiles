@@ -293,7 +293,7 @@ function! s:switch (line)
     endif
   endif
   if v:shell_error == 0
-    argdo edit!
+    bufdo edit!
     echomsg 'switched to ::' . l:branch
   else
     echohl Warningmsg
