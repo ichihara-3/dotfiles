@@ -239,6 +239,21 @@ function! s:buffer_modified ()
   return len(getbufinfo({'bufmodified': 1})) != 0
 endfunction
 
+" cd command
+command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
+function! s:ChangeCurrentDir(directory, bang)
+  if a:directory == ''
+    lcd %:p:h
+  else
+    execute 'lcd' .. a:directory
+  endif
+
+  if a:bang == ''
+    pwd
+  endif
+endfunction
+
+
 " ======= colors ======
 " define color settings before set color schema
 function! DefineMyColors()
@@ -285,16 +300,16 @@ function! s:switch (line)
 
   let l:branch = substitute(a:line, '^\s*\w\{-\}/\(\w*\)\s*$', '\1', '')
   echo l:branch
-  let l:result = system('git switch ' . l:branch)
+  let l:result = system('git switch ' .. l:branch)
   if v:shell_error != 0
-    call system('git checkout ' . l:branch)
+    call system('git checkout ' .. l:branch)
     if v:shell_error != 0
-      call system('git -b checkout ' . l:branch)
+      call system('git -b checkout ' .. l:branch)
     endif
   endif
   if v:shell_error == 0
     bufdo edit!
-    echomsg 'switched to ::' . l:branch
+    echomsg 'switched to ::' .. l:branch
   else
     echohl Warningmsg
     echomsg l:result
@@ -304,7 +319,7 @@ endfunction
 
 function! s:branches ()
   let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-  let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' . escape(l:current, '/') . '/d"')
+  let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
   return split(l:branches, '\n')
 endfunction
 
@@ -341,6 +356,9 @@ nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history(0)<CR>
 cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history(0)<CR>
 
 nnoremap <silent> <leader>gb :<C-u>call <SID>git_switch()<CR>
+
+" change current directory
+nnoremap <silent> <leader>cd :<C-u>CD<CR>
 
 
 " turn off highlight with typing Esc Key twice
@@ -492,18 +510,18 @@ function! MyReadonly()
 endfunction
 
 function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+  return ('' != MyReadonly() ? MyReadonly() .. ' ' : '') ..
         \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
         \  &ft == 'unite' ? unite#get_status_string() :
         \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') ..
+        \ ('' != MyModified() ? ' ' .. MyModified() : '')
 endfunction
 
 function! MyFugitive()
   try
     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
-      return ' ' . fugitive#head()
+      return ' ' .. fugitive#head()
     endif
   catch
   endtry
