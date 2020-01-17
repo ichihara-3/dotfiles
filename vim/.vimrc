@@ -229,12 +229,13 @@ set diffopt=filler,vertical
 
 set clipboard=unnamed,unnamedplus
 
+" delete spaces at the end of lines
 augroup PreWriting
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
 
-" check if buffers are modifed
+" check if buffers are modified
 function! s:buffer_modified ()
   return len(getbufinfo({'bufmodified': 1})) != 0
 endfunction
@@ -355,11 +356,8 @@ nnoremap <silent> <leader>h :<C-u>call fzf#vim#history(0)<CR>
 nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history(0)<CR>
 cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history(0)<CR>
 
-nnoremap <silent> <leader>gb :<C-u>call <SID>git_switch()<CR>
-
 " change current directory
 nnoremap <silent> <leader>cd :<C-u>CD<CR>
-
 
 " turn off highlight with typing Esc Key twice
 nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
@@ -384,15 +382,15 @@ nnoremap <silent> <leader>x :<C-u>close<CR>
 " filer
 nnoremap <silent> <leader>f :<C-u>Vexplore<CR>
 
-" fugitive(git)
+" git
 " Gstatus
 nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
-" Gcommit
-nnoremap <silent> <leader>gc :<C-u>Gcommit<CR>
 " Gpush
 nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
 " Gdiff
 nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
+" git checkout
+nnoremap <silent> <leader>gc :<C-u>call <SID>git_switch()<CR>
 
 " ======= commands ======
 " source current file
