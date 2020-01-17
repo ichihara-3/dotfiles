@@ -24,7 +24,7 @@ if !exists('g:vim_plug_is_installed')
 endif
 
 " install junegunn/vim-plug and add
-function! s:install_plug()
+function! s:install_plug() abort
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
@@ -111,7 +111,7 @@ if vim_plug_is_installed
 endif
 
 " utility to check if the plugin is installed
-function! s:IsInstalled(name)
+function! s:IsInstalled(name) abort
   if !exists('g:plugs')
     return 0
   endif
@@ -291,7 +291,39 @@ colorscheme slate
 
 " ======= git ======
 
-function! s:switch (line)
+" switch branch with fzf window
+function! s:git_switch_with_fzf ()
+  let l:cwd = getcwd()
+  let l:changeto = expand('%:p:h')
+  call chdir(l:changeto)
+
+  try
+    let l:branches = s:branches()
+    call fzf#run(fzf#wrap({
+    \ 'source': l:branches,
+    \ 'sink': function('s:switch')
+    \ }))
+
+  finally
+    call chdir(l:cwd)
+  endtry
+endfunction
+
+" get branches
+function! s:branches () abort
+  let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
+  let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
+  return split(l:branches, '\n')
+endfunction
+
+function! s:switch(line) abort
+  let l:branch = substitute(a:line, '^\s*\w\{-\}/\(\w*\)\s*$', '\1', '')
+  call s:git_switch(l:branch)
+endfunction
+
+
+" switch to the specified branch
+function! s:git_switch (branch) abort
   if s:buffer_modified()
     echohl Warningmsg
     echomsg 'some buffers has changed. save or discard them.'
@@ -299,42 +331,21 @@ function! s:switch (line)
     return
   endif
 
-  let l:branch = substitute(a:line, '^\s*\w\{-\}/\(\w*\)\s*$', '\1', '')
-  echo l:branch
-  let l:result = system('git switch ' .. l:branch)
+  let l:result = system('git switch ' .. a:branch)
   if v:shell_error != 0
-    call system('git checkout ' .. l:branch)
+    call system('git checkout ' .. a:branch)
     if v:shell_error != 0
-      call system('git -b checkout ' .. l:branch)
+      call system('git -b checkout ' .. a:branch)
     endif
   endif
   if v:shell_error == 0
     bufdo edit!
-    echomsg 'switched to ::' .. l:branch
+    echomsg 'switched to ::' .. a:branch
   else
     echohl Warningmsg
     echomsg l:result
     echohl None
   endif
-endfunction
-
-function! s:branches ()
-  let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-  let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
-  return split(l:branches, '\n')
-endfunction
-
-function! s:git_switch ()
-  let l:cwd = getcwd()
-  let l:changeto = expand('%:p:h')
-  call chdir(l:changeto)
-
-  call fzf#run(fzf#wrap({
-  \ 'source': s:branches(),
-  \ 'sink': function('s:switch')
-  \ }))
-
-  call chdir(l:cwd)
 endfunction
 
 " ======= key mappings ======
@@ -390,7 +401,7 @@ nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
 " Gdiff
 nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 " git checkout
-nnoremap <silent> <leader>gc :<C-u>call <SID>git_switch()<CR>
+nnoremap <silent> <leader>gc :<C-u>call <SID>git_switch_with_fzf()<CR>
 
 " ======= commands ======
 " source current file
