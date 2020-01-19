@@ -303,7 +303,10 @@ function! s:git_switch_with_fzf ()
     \ 'source': l:branches,
     \ 'sink': function('s:switch')
     \ }))
-
+  catch
+    echohl Warningmsg
+    echomsg "the file not in a git repo"
+    echohl None
   finally
     call chdir(l:cwd)
   endtry
@@ -311,9 +314,20 @@ endfunction
 
 " get branches
 function! s:branches () abort
+
+  if !s:is_in_git_repo()
+    throw "not in git repo"
+  endif
+
   let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
   let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
+
   return split(l:branches, '\n')
+endfunction
+
+function! s:is_in_git_repo() abort
+  silent let l:result = trim(system("git rev-parse --is-inside-work-tree"))
+  return l:result == 'true'
 endfunction
 
 function! s:switch(line) abort
