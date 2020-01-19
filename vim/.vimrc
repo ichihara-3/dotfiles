@@ -378,8 +378,8 @@ nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {"--reverse": 1}
 " fuzzy search buffers history
 nnoremap <silent> <leader>h :<C-u>call fzf#vim#history(0)<CR>
 " command history
-nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history(0)<CR>
-cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history(0)<CR>
+nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': '--no-reverse'})<CR>
+cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': '--no-reverse'})<CR>
 
 " change current directory
 nnoremap <silent> <leader>cd :<C-u>CD<CR>
