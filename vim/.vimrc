@@ -370,16 +370,25 @@ let mapleader = "\<Space>"
 nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 
 " fuzzy search files (fzf)
-nnoremap <silent> <leader><Space> :<C-u>FZF --reverse --multi<CR>
+" preview with `bat` if executable, if can't, `cat` is used
+nnoremap <silent> <leader><Space> :<C-u>call fzf#vim#files(
+      \ '',
+      \ {'options': [
+      \           '--reverse',
+      \           '--info=inline',
+      \           '--preview', executable('bat') ? 'bat  --color=always --style=header,grid --line-range :100 {}' : 'cat {}'
+      \ ]},
+      \ 0
+      \ )<CR>
 " fuzzy search buffers
-nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {"--reverse": 1})<CR>
+nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {'options': ['--reverse']})<CR>
 " fuzzy search lines
-nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {"--reverse": 1})<CR>
+nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {'options': ['--reverse']})<CR>
 " fuzzy search buffers history
-nnoremap <silent> <leader>h :<C-u>call fzf#vim#history(0)<CR>
+nnoremap <silent> <leader>h :<C-u>call fzf#vim#history()<CR>
 " command history
-nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': '--no-reverse'})<CR>
-cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': '--no-reverse'})<CR>
+nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
+cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
 
 " change current directory
 nnoremap <silent> <leader>cd :<C-u>CD<CR>
@@ -455,7 +464,7 @@ let g:netrw_altv = 1
 
 " ======= fzf =======
 " layout
-let g:fzf_layout = { 'left' : '~30%'}
+let g:fzf_layout = { 'left' : '~40%'}
 " keybindings
 let g:fzf_action = {
 \ 'ctrl-t': 'tab split',
