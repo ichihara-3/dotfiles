@@ -345,15 +345,17 @@ function! s:git_switch (branch) abort
     return
   endif
 
-  let l:result = system('git switch ' .. a:branch)
+  silent let l:result = system('git switch ' .. a:branch)
   if v:shell_error != 0
-    call system('git checkout ' .. a:branch)
+    silent let l:result = system('git checkout ' .. a:branch)
     if v:shell_error != 0
-      call system('git -b checkout ' .. a:branch)
+      silent let l:result = system('git -b checkout ' .. a:branch)
     endif
   endif
-  if v:shell_error == 0 && s:buffer_exists()
-    bufdo edit!
+  if v:shell_error == 0
+    if s:buffer_exists()
+      bufdo edit!
+    endif
     echomsg 'switched to ::' .. a:branch
   else
     echohl Warningmsg
