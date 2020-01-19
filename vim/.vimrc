@@ -352,7 +352,7 @@ function! s:git_switch (branch) abort
       call system('git -b checkout ' .. a:branch)
     endif
   endif
-  if v:shell_error == 0 && len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+  if v:shell_error == 0 && s:buffer_exists()
     bufdo edit!
     echomsg 'switched to ::' .. a:branch
   else
@@ -360,6 +360,10 @@ function! s:git_switch (branch) abort
     echomsg l:result
     echohl None
   endif
+endfunction
+
+function! s:buffer_exists()
+  return len(filter(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val) != ""')) >= 1
 endfunction
 
 " ======= key mappings ======
