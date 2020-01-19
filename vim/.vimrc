@@ -352,7 +352,7 @@ function! s:git_switch (branch) abort
       call system('git -b checkout ' .. a:branch)
     endif
   endif
-  if v:shell_error == 0
+  if v:shell_error == 0 && len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
     bufdo edit!
     echomsg 'switched to ::' .. a:branch
   else
