@@ -440,6 +440,11 @@ command! Rc source %
 "   filetype specific settings
 " ===============================
 
+augroup SetFileType
+  autocmd!
+  autocmd BufNewFile,BufRead Jenkinsfile setfiletype groovy
+augroup END
+
 augroup FileTypeIndent
   autocmd!
   autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,sh setlocal tabstop=2
@@ -496,24 +501,28 @@ let g:clang_format_style = 'Google'
 let g:clang_check_syntax_auto = 1
 
 " ======= asyncomplete settings =======
-" files
-autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
 
-" buffers
-autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': [],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ 'config': {
-    \    'max_buffer_size': 5000000,
-    \  },
-    \ }))
+augroup AsyncComplete
+  autocmd!
+  " files
+  autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+      \ 'name': 'file',
+      \ 'whitelist': ['*'],
+      \ 'priority': 10,
+      \ 'completor': function('asyncomplete#sources#file#completor')
+      \ }))
+
+  " buffers
+  autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+      \ 'name': 'buffer',
+      \ 'whitelist': ['*'],
+      \ 'blacklist': [],
+      \ 'completor': function('asyncomplete#sources#buffer#completor'),
+      \ 'config': {
+      \    'max_buffer_size': 5000000,
+      \  },
+      \ }))
+augroup END
 
 
 " ======= lightline settings =======
