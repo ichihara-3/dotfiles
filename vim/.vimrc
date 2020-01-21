@@ -404,14 +404,14 @@ nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
 
 " tabs
 " new tab
-nnoremap <silent> <leader>t :<C-u>tabnew<CR>
+nnoremap <silent> <leader>, :<C-u>tabnew<CR>
 " next tab
 nnoremap <silent> <leader>n :<C-u>tabnext<CR>
 " previous tab
 nnoremap <silent> <leader>p :<C-u>tabprevious<CR>
 
 " terminal
-nnoremap <silent> <leader>T :<C-u>terminal<CR>
+nnoremap <silent> <leader>t :<C-u>terminal<CR>
 
 " window
 " split virtical
