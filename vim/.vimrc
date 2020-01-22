@@ -31,13 +31,14 @@ function! s:install_plug() abort
     call s:configure_plugins()
     let g:vim_plug_is_installed = 1
     echo 'finished!'
-    echo 'to install plugins, call :PlugInstall'
+    echo 'to install plugins, call :PlugInstallWithSettings'
   else
     echo 'vim-plug is already installed'
   endif
 endfunction
 
 command! InstallPlug call s:install_plug()
+command! PlugInstallWithSettings PlugInstall | call s:plugin_setting()
 
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
@@ -113,7 +114,7 @@ if vim_plug_is_installed
 endif
 
 " utility to check if the plugin is installed
-function! s:IsInstalled(name) abort
+function! s:is_installed(name) abort
   if !exists('g:plugs')
     return 0
   endif
@@ -462,150 +463,178 @@ augroup END
 "         plugin settings
 " ===============================
 
-" ======= netrw =======
-" window size of netrw
-let g:netrw_winsize = 25
-" hide netrw direcory banner
-let g:netrw_banner = 0
-" tree view
-let g:netrw_liststyle = 3
-" open in previous window
-let g:netrw_browse_split = 4
-" open left
-let g:netrw_altv = 1
+function! s:plugin_setting()
+  " ======= netrw =======
+  " window size of netrw
+  let g:netrw_winsize = 25
+  " hide netrw direcory banner
+  let g:netrw_banner = 0
+  " tree view
+  let g:netrw_liststyle = 3
+  " open in previous window
+  let g:netrw_browse_split = 4
+  " open left
+  let g:netrw_altv = 1
 
 
-" ======= fzf =======
-" layout
-let g:fzf_layout = { 'left' : '~40%'}
-" keybindings
-let g:fzf_action = {
-\ 'ctrl-t': 'tab split',
-\ 'ctrl-x': 'split',
-\ 'ctrl-v': 'vsplit' }
+  " ======= fzf =======
+  if s:is_installed('fzf')
+    " layout
+    let g:fzf_layout = { 'left' : '~40%'}
+    " keybindings
+    let g:fzf_action = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit' }
+  endif
 
-" ======= vim-clang =======
-" vim-clang settings
-" to use vim-clang, clang must be installed.
-" use c11 specs.
-let g:clang_c_options = '-std=c11'
-" use c++17(c++1z), libc++, the strict syntax checking with ISO C++
-let g:clang_cpp_options = '-std=c++17 -stdlib=libc++ -pedantic-errors'
-" auto format after saving the file. clang-format must be installed.
-if executable('clang-format')
-let g:clang_format_auto = 1
-else
-let g:clang_format_auto = 0
-endif
-" Google style format
-let g:clang_format_style = 'Google'
-" check syntax when saving the file.
-let g:clang_check_syntax_auto = 1
-
-" ======= asyncomplete settings =======
-
-augroup AsyncComplete
-  autocmd!
-  " files
-  autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-      \ 'name': 'file',
-      \ 'whitelist': ['*'],
-      \ 'priority': 10,
-      \ 'completor': function('asyncomplete#sources#file#completor')
-      \ }))
-
-  " buffers
-  autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-      \ 'name': 'buffer',
-      \ 'whitelist': ['*'],
-      \ 'blacklist': [],
-      \ 'completor': function('asyncomplete#sources#buffer#completor'),
-      \ 'config': {
-      \    'max_buffer_size': 5000000,
-      \  },
-      \ }))
-augroup END
-
-" vim-empty-line
-function! s:empty_prompt_mappings() abort
-  " If current line is empty prompt ...
-
-  " : works as <C-w>:
-  call empty_prompt#map(#{lhs: ':', rhs: '<C-w>:'})
-  " <Esc> works as <C-w>N
-  call empty_prompt#map(#{lhs: '<Esc>', rhs: '<C-w>N'})
-endfunction
-
-augroup EmptyLine
-  autocmd!
-  autocmd VimEnter * ++once call s:empty_prompt_mappings()
-augroup END
-
-
-" ======= lightline settings =======
-let g:lightline = {
-      \ 'colorscheme': 'powerline',
-      \ 'mode_map': {'c': 'NORMAL'},
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'], ['fugitive', 'filename'] ]
-      \ },
-      \ 'component': {
-      \   'lineinfo': '%3l:%-2v',
-      \ },
-      \ 'component_function': {
-      \   'modified': 'MyModified',
-      \   'readonly': 'MyReadonly',
-      \   'fugitive': 'MyFugitive',
-      \   'filename': 'MyFilename',
-      \   'fileformat': 'MyFileformat',
-      \   'filetype': 'MyFiletype',
-      \   'fileencoding': 'MyFileencoding',
-      \   'mode': 'MyMode',
-      \ }
-      \ }
-
-
-function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
-endfunction
-
-function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() .. ' ' : '') ..
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') ..
-        \ ('' != MyModified() ? ' ' .. MyModified() : '')
-endfunction
-
-function! MyFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
-      return ' ' .. fugitive#head()
+  " ======= vim-clang =======
+  " vim-clang settings
+  " to use vim-clang, clang must be installed.
+  " use c11 specs.
+  if s:is_installed('vim-clang')
+    let g:clang_c_options = '-std=c11'
+    " use c++17(c++1z), libc++, the strict syntax checking with ISO C++
+    let g:clang_cpp_options = '-std=c++17 -stdlib=libc++ -pedantic-errors'
+    " auto format after saving the file. clang-format must be installed.
+    if executable('clang-format')
+    let g:clang_format_auto = 1
+    else
+    let g:clang_format_auto = 0
     endif
-  catch
-  endtry
-  return ''
+    " Google style format
+    let g:clang_format_style = 'Google'
+    " check syntax when saving the file.
+    let g:clang_check_syntax_auto = 1
+  endif
+
+  " ======= asyncomplete settings =======
+
+  if s:is_installed('asyncomplete.vim')
+    augroup AsyncComplete
+      autocmd!
+      " files
+      if s:is_installed('asyncomplete-file.vim')
+        autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+            \ 'name': 'file',
+            \ 'whitelist': ['*'],
+            \ 'priority': 10,
+            \ 'completor': function('asyncomplete#sources#file#completor')
+            \ }))
+      endif
+
+      " buffers
+      if s:is_installed('asyncomplete-buffer.vim')
+        autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+            \ 'name': 'buffer',
+            \ 'whitelist': ['*'],
+            \ 'blacklist': [],
+            \ 'completor': function('asyncomplete#sources#buffer#completor'),
+            \ 'config': {
+            \    'max_buffer_size': 5000000,
+            \  },
+            \ }))
+      endif
+    augroup END
+  endif
+
+  " vim-empty-line
+  if s:is_installed('empty-prompt.vim')
+    function! s:empty_prompt_mappings() abort
+      " If current line is empty prompt ...
+
+      " : works as <C-w>:
+      call empty_prompt#map(#{lhs: ':', rhs: '<C-w>:'})
+      " <Esc> works as <C-w>N
+      call empty_prompt#map(#{lhs: '<Esc>', rhs: '<C-w>N'})
+
+      " empty prompt pattern
+      let g:empty_prompt#pattern = '❯\s*$'
+
+    endfunction
+
+    augroup EmptyLine
+      autocmd!
+      autocmd VimEnter * ++once call s:empty_prompt_mappings()
+    augroup END
+  endif
+
+
+  " ======= lightline settings =======
+
+  if s:is_installed('vim-lightline')
+    let g:lightline = {
+          \ 'colorscheme': 'powerline',
+          \ 'mode_map': {'c': 'NORMAL'},
+          \ 'active': {
+          \   'left': [ ['mode', 'paste'], ['fugitive', 'filename'] ]
+          \ },
+          \ 'component': {
+          \   'lineinfo': '%3l:%-2v',
+          \ },
+          \ 'component_function': {
+          \   'modified': 'MyModified',
+          \   'readonly': 'MyReadonly',
+          \   'fugitive': 'MyFugitive',
+          \   'filename': 'MyFilename',
+          \   'fileformat': 'MyFileformat',
+          \   'filetype': 'MyFiletype',
+          \   'fileencoding': 'MyFileencoding',
+          \   'mode': 'MyMode',
+          \ }
+          \ }
+
+
+    function! MyModified()
+      return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    endfunction
+
+    function! MyReadonly()
+      return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
+    endfunction
+
+    function! MyFilename()
+      return ('' != MyReadonly() ? MyReadonly() .. ' ' : '') ..
+            \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+            \  &ft == 'unite' ? unite#get_status_string() :
+            \  &ft == 'vimshell' ? vimshell#get_status_string() :
+            \ '' != expand('%:t') ? expand('%:t') : '[No Name]') ..
+            \ ('' != MyModified() ? ' ' .. MyModified() : '')
+    endfunction
+
+    function! MyFugitive()
+      try
+        if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+          return ' ' .. fugitive#head()
+        endif
+      catch
+      endtry
+      return ''
+    endfunction
+
+    function! MyFileformat()
+      return winwidth(0) > 70 ? &fileformat : ''
+    endfunction
+
+    function! MyFiletype()
+      return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    endfunction
+
+    function! MyFileencoding()
+      return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    endfunction
+
+    function! MyMode()
+      return winwidth(0) > 60 ? lightline#mode() : ''
+    endfunction
+
+  endif
+
 endfunction
 
-function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyMode()
-  return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
+call s:plugin_setting()
+" ===============================
+"     plugin settings end
+" ===============================
 
 " vim: set ai bs=indent,eol,start ts=2 sw=2 ambw=double:
