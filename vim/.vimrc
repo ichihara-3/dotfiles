@@ -68,6 +68,8 @@ function s:configure_plugins()
     Plug 'tpope/vim-vinegar'
     " Goyo mode
     Plug 'junegunn/goyo.vim'
+    " terminal empty line enhancement
+    Plug 'tyru/empty-prompt.vim'
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
@@ -522,6 +524,21 @@ augroup AsyncComplete
       \    'max_buffer_size': 5000000,
       \  },
       \ }))
+augroup END
+
+" vim-empty-line
+function! s:empty_prompt_mappings() abort
+  " If current line is empty prompt ...
+
+  " : works as <C-w>:
+  call empty_prompt#map(#{lhs: ':', rhs: '<C-w>:'})
+  " <Esc> works as <C-w>N
+  call empty_prompt#map(#{lhs: '<Esc>', rhs: '<C-w>N'})
+endfunction
+
+augroup EmptyLine
+  autocmd!
+  autocmd VimEnter * ++once call s:empty_prompt_mappings()
 augroup END
 
 
