@@ -538,7 +538,7 @@ function! s:plugin_setting()
     augroup END
   endif
 
-  " vim-empty-line
+  " ======= vim-empty-line =======
   if s:is_installed('empty-prompt.vim')
     function! s:empty_prompt_mappings() abort
       " If current line is empty prompt ...
