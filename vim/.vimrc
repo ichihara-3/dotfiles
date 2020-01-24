@@ -323,7 +323,7 @@ function! s:branches () abort
   endif
 
   let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-  let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
+  let l:branches = system('git branch |sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
 
   return split(l:branches, '\n')
 endfunction
@@ -334,8 +334,10 @@ function! s:is_in_git_repo() abort
 endfunction
 
 function! s:switch(line) abort
-  let l:branch = substitute(a:line, '^\s*\w\{-\}/\(\w*\)\s*$', '\1', '')
-  call s:git_switch(l:branch)
+  let l:separated = split(a:line, '/')
+  let l:branch = len(l:separated) == 1 ? a:line : join(l:separated[1:], '/')
+  echomsg l:branch
+  " call s:git_switch(l:branch)
 endfunction
 
 
