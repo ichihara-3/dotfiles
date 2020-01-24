@@ -563,7 +563,7 @@ function! s:plugin_setting()
 
   " ======= lightline settings =======
 
-  if s:is_installed('vim-lightline')
+  if s:is_installed('lightline.vim')
     let g:lightline = {
           \ 'colorscheme': 'powerline',
           \ 'mode_map': {'c': 'NORMAL'},
