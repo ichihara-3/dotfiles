@@ -1,2 +1,13 @@
 # dotfiles
-created to control versions of vim and other configuration files
+
+contents::
+.
+├── README.md
+├── install_nvim_init.sh
+├── install_tmuxconf.sh
+├── install_vimrc.sh
+├── nvim
+│   └── init.vim
+├── tmux
+└── vim
+
