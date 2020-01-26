@@ -1,6 +1,9 @@
 # dotfiles
 
-contents::
+contents
+
+
+```
 .
 ├── README.md
 ├── install_nvim_init.sh
@@ -10,4 +13,4 @@ contents::
 │   └── init.vim
 ├── tmux
 └── vim
-
+```
