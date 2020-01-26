@@ -200,7 +200,7 @@ set undodir=~/.vim/undo/
 set undofile
 
 if &undofile && !isdirectory(&undodir)
-  call mkdir(&undodir)
+  call mkdir(&undodir, 'p')
 endif
 
 " width of indent (the size of tabstop is used)
