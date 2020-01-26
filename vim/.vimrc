@@ -323,9 +323,14 @@ function! s:branches () abort
   endif
 
   let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-  let l:branches = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
+  let l:remote = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
+  let l:local = system('git branch |sed -e "/\*/d" -e "/' .. escape(l:current, '/') .. '/d"')
 
-  return split(l:branches, '\n')
+  return s:add_label(split(l:remote, '\n'), 'remote') + s:add_label(split(l:local, '\n'), 'local')
+endfunction
+
+function! s:add_label (branches, label) abort
+ return map(copy(a:branches), {_, el -> a:label .. ":\t" .. trim(el)})
 endfunction
 
 function! s:is_in_git_repo() abort
@@ -334,11 +339,23 @@ function! s:is_in_git_repo() abort
 endfunction
 
 function! s:switch(line) abort
-  let l:separated = split(a:line, '/')
-  let l:branch = trim(len(l:separated) == 1 ? separated[0] : join(l:separated[1:], '/'))
+  let l:branch = s:get_branchname(a:line)
   call s:git_switch(l:branch)
 endfunction
 
+function! s:get_branchname(line) abort
+  if s:is_remote(a:line)
+    let l:separated = split(substitute(a:line, '^remote:\t', '', ''), '/')
+    let l:branch = trim(len(l:separated) == 1 ? separated[0] : join(l:separated[1:], '/'))
+  else
+    let l:branch = trim(substitute(a:line, '^local:\t', '', ''))
+  endif
+  return l:branch
+endfunction
+
+function! s:is_remote(line) abort
+  return match(a:line, '^remote:\t') != -1
+endfunction
 
 " switch to the specified branch
 function! s:git_switch (branch) abort
