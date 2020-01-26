@@ -5,7 +5,6 @@ contents
 
 ```
 .
-├── .README.md.swp
 ├── .gitignore
 ├── .my.zsh
 ├── README.md
@@ -18,6 +17,4 @@ contents
 │   └── .tmux.conf
 └── vim
     └── .vimrc
-
-3 directories, 10 files
 ```
