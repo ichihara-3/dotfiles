@@ -6,6 +6,125 @@ endfunction
 
 let g:my_vimrc_file = s:GetVimrc()
 
+" ======= vim-plug ======
+" plugin management with junegunn/vim-plug
+
+" check if the plugin manager is installed
+
+if !exists('g:vim_plug_is_installed')
+
+  let s:plug_path = glob('~/.vim/autoload/plug.vim')
+  if file_readable(s:plug_path)
+    let g:vim_plug_is_installed = 1
+  else
+    let g:vim_plug_is_installed = 0
+    echomsg 'vim plug is not installed.'
+    echomsg 'call :InstallPlug to get vim-plug'
+  endif
+endif
+
+" install junegunn/vim-plug and add
+function! s:install_plug() abort
+  if !g:vim_plug_is_installed
+    echo 'installing vim-plug...'
+    call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    call s:configure_plugins()
+    let g:vim_plug_is_installed = 1
+    echo 'finished!'
+    echo 'to install plugins, call :PlugInstallWithSettings'
+  else
+    echo 'vim-plug is already installed'
+  endif
+endfunction
+
+command! InstallPlug call s:install_plug()
+command! PlugInstallWithSettings PlugInstall | call s:plugin_setting()
+
+" ======= plugins ======
+" to install plugins bellow, call :PlugInstall after opening the vim.
+
+function s:configure_plugins()
+  call plug#begin('~/.vim/plugged')
+
+    " vim Japanese version help
+    Plug 'vim-jp/vimdoc-ja'
+    " comment out / uncomment easily
+    Plug 'tpope/vim-commentary'
+    " yank, paste, change surroundings like ", ', (), {}, <tags>
+    Plug 'tpope/vim-surround'
+    " repeat vim-surround
+    Plug 'tpope/vim-repeat'
+    " git support
+    Plug 'tpope/vim-fugitive'
+    " show git diff in the sign column
+    Plug 'airblade/vim-gitgutter'
+    " pretty statusline
+    Plug 'itchyny/lightline.vim'
+    " fuzzy file finder
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    " undo tree
+    Plug 'mbbill/undotree'
+    " enhance netrw
+    Plug 'tpope/vim-vinegar'
+    " Goyo mode
+    Plug 'junegunn/goyo.vim'
+    " terminal empty line enhancement
+    Plug 'tyru/empty-prompt.vim'
+
+    " ====== languages support ======
+    " clang support. clang and clang-format should be installed.
+    if executable('clang') && executable('clang-format')
+      Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
+    endif
+    " html tags auto completion
+    Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
+    " html5 syntax highlighting
+    Plug 'othree/html5.vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
+    " css3 syntax highlighting
+    Plug 'hail2u/vim-css3-syntax', { 'for' : ['css', 'html', 'vue'] }
+    " toml syntax support
+    Plug 'cespare/vim-toml', { 'for' : ['toml'] }
+
+    " go
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+    " asyncomplete
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    " asyncomplete sources
+    " files/directories
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Buffer Completion
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+
+    " Language Server Protocols
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " vim-lsp
+    Plug 'prabirshrestha/vim-lsp'
+    " LSP auto settings
+    Plug 'mattn/vim-lsp-settings'
+
+
+  call plug#end()
+endfunction
+
+if vim_plug_is_installed
+  call s:configure_plugins()
+endif
+
+" utility to check if the plugin is installed
+function! s:is_installed(name) abort
+  if !exists('g:plugs')
+    return 0
+  endif
+
+  " The plugin name should exist in g:plugs dictionary
+  " if the plugin is already installed.
+  return has_key(g:plugs, a:name) ? isdirectory(g:plugs[a:name].dir) : 0
+endfunction
+
+
 " enable syntax highlighting
 syntax enable
 " enable filetype detection, filetype plugin, indent file
@@ -173,6 +292,102 @@ augroup END
 " set colorscheme
 colorscheme slate
 
+" ======= git ======
+
+" switch branch with fzf window
+function! s:git_switch_with_fzf ()
+  let l:cwd = getcwd()
+  let l:changeto = expand('%:p:h')
+  call chdir(l:changeto)
+
+  try
+    let l:branches = s:branches()
+    call fzf#run(fzf#wrap({
+    \ 'source': l:branches,
+    \ 'sink': function('s:switch')
+    \ }))
+  catch
+    echohl Warningmsg
+    echomsg "the file not in a git repo"
+    echohl None
+  finally
+    call chdir(l:cwd)
+  endtry
+endfunction
+
+" get branches
+function! s:branches () abort
+
+  if !s:is_in_git_repo()
+    throw "not in git repo"
+  endif
+
+  let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
+  let l:remote = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
+  let l:local = system('git branch |sed -e "/\*/d" -e "/' .. escape(l:current, '/') .. '/d"')
+
+  return s:add_label(split(l:remote, '\n'), 'remote') + s:add_label(split(l:local, '\n'), 'local')
+endfunction
+
+function! s:add_label (branches, label) abort
+ return map(copy(a:branches), {_, el -> a:label .. ":\t" .. trim(el)})
+endfunction
+
+function! s:is_in_git_repo() abort
+  silent let l:result = trim(system("git rev-parse --is-inside-work-tree"))
+  return l:result == 'true'
+endfunction
+
+function! s:switch(line) abort
+  let l:branch = s:get_branchname(a:line)
+  call s:git_switch(l:branch)
+endfunction
+
+function! s:get_branchname(line) abort
+  if s:is_remote(a:line)
+    let l:separated = split(substitute(a:line, '^remote:\t', '', ''), '/')
+    let l:branch = trim(len(l:separated) == 1 ? separated[0] : join(l:separated[1:], '/'))
+  else
+    let l:branch = trim(substitute(a:line, '^local:\t', '', ''))
+  endif
+  return l:branch
+endfunction
+
+function! s:is_remote(line) abort
+  return match(a:line, '^remote:\t') != -1
+endfunction
+
+" switch to the specified branch
+function! s:git_switch (branch) abort
+  if s:buffer_modified()
+    echohl Warningmsg
+    echomsg 'some buffers has changed. save or discard them.'
+    echohl None
+    return
+  endif
+
+  silent let l:result = system('git switch ' .. a:branch)
+  if v:shell_error != 0
+    silent let l:result = system('git checkout ' .. a:branch)
+    if v:shell_error != 0
+      silent let l:result = system('git -b checkout ' .. a:branch)
+    endif
+  endif
+  if v:shell_error == 0
+    if s:buffer_exists()
+      bufdo edit!
+    endif
+    echomsg 'switched to ::' .. a:branch
+  else
+    echohl Warningmsg
+    echomsg l:result
+    echohl None
+  endif
+endfunction
+
+function! s:buffer_exists()
+  return len(filter(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val) != ""')) >= 1
+endfunction
 
 " ======= key mappings ======
 " set mapleader to <space> key
@@ -262,128 +477,9 @@ augroup NoNewCommentLine
   autocmd FileType * setlocal formatoptions-=ro
 augroup END
 
-" ==============================
-"            plugins
-" ==============================
-
-" ======= vim-plug ======
-" plugin management with junegunn/vim-plug
-
-" check if the plugin manager is installed
-
-if !exists('g:vim_plug_is_installed')
-
-  let s:plug_path = glob('~/.vim/autoload/plug.vim')
-  if file_readable(s:plug_path)
-    let g:vim_plug_is_installed = 1
-  else
-    let g:vim_plug_is_installed = 0
-    echomsg 'vim plug is not installed.'
-    echomsg 'call :InstallPlug to get vim-plug'
-  endif
-endif
-
-" install junegunn/vim-plug and add
-function! s:install_plug() abort
-  if !g:vim_plug_is_installed
-    echo 'installing vim-plug...'
-    call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-    call s:configure_plugins()
-    let g:vim_plug_is_installed = 1
-    echo 'finished!'
-    echo 'to install plugins, call :PlugInstallWithSettings'
-  else
-    echo 'vim-plug is already installed'
-  endif
-endfunction
-
-command! InstallPlug call s:install_plug()
-command! PlugInstallWithSettings PlugInstall | call s:plugin_setting()
-
-" ======= plugins ======
-" to install plugins bellow, call :PlugInstall after opening the vim.
-
-function s:configure_plugins()
-  call plug#begin('~/.vim/plugged')
-
-    " vim Japanese version help
-    Plug 'vim-jp/vimdoc-ja'
-    " comment out / uncomment easily
-    Plug 'tpope/vim-commentary'
-    " yank, paste, change surroundings like ", ', (), {}, <tags>
-    Plug 'tpope/vim-surround'
-    " repeat vim-surround
-    Plug 'tpope/vim-repeat'
-    " git support
-    Plug 'tpope/vim-fugitive'
-    " show git diff in the sign column
-    Plug 'airblade/vim-gitgutter'
-    " pretty statusline
-    Plug 'itchyny/lightline.vim'
-    " fuzzy file finder
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim'
-    " undo tree
-    Plug 'mbbill/undotree'
-    " enhance netrw
-    Plug 'tpope/vim-vinegar'
-    " Goyo mode
-    Plug 'junegunn/goyo.vim'
-    " terminal empty line enhancement
-    Plug 'tyru/empty-prompt.vim'
-
-    " ====== languages support ======
-    " clang support. clang and clang-format should be installed.
-    if executable('clang') && executable('clang-format')
-      Plug 'justmao945/vim-clang', { 'for': ['c', 'cpp'] }
-    endif
-    " html tags auto completion
-    Plug 'mattn/emmet-vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
-    " html5 syntax highlighting
-    Plug 'othree/html5.vim', { 'for' : ['html', 'js', 'ts', 'vue'] }
-    " css3 syntax highlighting
-    Plug 'hail2u/vim-css3-syntax', { 'for' : ['css', 'html', 'vue'] }
-    " toml syntax support
-    Plug 'cespare/vim-toml', { 'for' : ['toml'] }
-
-    " go
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-    " asyncomplete
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    " asyncomplete sources
-    " files/directories
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Buffer Completion
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-
-    " Language Server Protocols
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    " vim-lsp
-    Plug 'prabirshrestha/vim-lsp'
-    " LSP auto settings
-    Plug 'mattn/vim-lsp-settings'
-
-
-  call plug#end()
-endfunction
-
-if vim_plug_is_installed
-  call s:configure_plugins()
-endif
-
-" utility to check if the plugin is installed
-function! s:is_installed(name) abort
-  if !exists('g:plugs')
-    return 0
-  endif
-
-  " The plugin name should exist in g:plugs dictionary
-  " if the plugin is already installed.
-  return has_key(g:plugs, a:name) ? isdirectory(g:plugs[a:name].dir) : 0
-endfunction
-
+" ===============================
+"         plugin settings
+" ===============================
 
 function! s:plugin_setting()
   " ======= netrw =======
@@ -408,88 +504,7 @@ function! s:plugin_setting()
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit' }
-
-    " ======= git ======
-
-    " switch branch with fzf window
-    function! s:git_switch_with_fzf ()
-      let l:cwd = getcwd()
-      let l:changeto = expand('%:p:h')
-      call chdir(l:changeto)
-
-      try
-        let l:branches = s:branches()
-        call fzf#run(fzf#wrap({
-        \ 'source': l:branches,
-        \ 'sink': function('s:switch')
-        \ }))
-      catch
-        echohl Warningmsg
-        echomsg "the file not in a git repo"
-        echohl None
-      finally
-        call chdir(l:cwd)
-      endtry
-    endfunction
-
-    " get branches
-    function! s:branches () abort
-
-      if !s:is_in_git_repo()
-        throw "not in git repo"
-      endif
-
-      let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-      let l:branches = system('git branch -r|sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
-
-      return split(l:branches, '\n')
-    endfunction
-
-    function! s:is_in_git_repo() abort
-      silent let l:result = trim(system("git rev-parse --is-inside-work-tree"))
-      return l:result == 'true'
-    endfunction
-
-    function! s:switch(line) abort
-      let l:branch = substitute(a:line, '^\s*\w\{-\}/\(\w*\)\s*$', '\1', '')
-      call s:git_switch(l:branch)
-    endfunction
-
-
-    " switch to the specified branch
-    function! s:git_switch (branch) abort
-      if s:buffer_modified()
-        echohl Warningmsg
-        echomsg 'some buffers has changed. save or discard them.'
-        echohl None
-        return
-      endif
-
-      silent let l:result = system('git switch ' .. a:branch)
-      if v:shell_error != 0
-        silent let l:result = system('git checkout ' .. a:branch)
-        if v:shell_error != 0
-          silent let l:result = system('git -b checkout ' .. a:branch)
-        endif
-      endif
-      if v:shell_error == 0
-        if s:buffer_exists()
-          bufdo edit!
-        endif
-        echomsg 'switched to :: ' .. a:branch
-      else
-        echohl Warningmsg
-        echomsg l:result
-        echohl None
-      endif
-    endfunction
-
-    function! s:buffer_exists()
-      return len(filter(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val) != ""')) >= 1
-    endfunction
-
   endif
-
 
   " ======= vim-clang =======
   " vim-clang settings
