@@ -1,5 +1,5 @@
-" I usually create symlink to vimrc in dotfiles directory so that
-" to store real path of the vimrc is useful.
+" I usually create symlink to vimrc in dotfiles directory,
+" so storing real path of the vimrc is useful.
 function! s:GetVimrc ()
   return resolve($MYVIMRC)
 endfunction
