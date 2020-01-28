@@ -9,7 +9,7 @@ if tmux -V > /dev/null 2>&1; then
     mv ~/.tmux.conf ~/.tmux.conf.bk
   fi
   echo install: ln -sf ${DIR}/.tmux.conf ~/.tmux.conf
-  ln -sf ${DIR}/.tmux.conf ~/.tmux.conf
+  ln -sf ${DIR}/tmux.conf ~/.tmux.conf
 else
   echo tmux not exists...
 fi
