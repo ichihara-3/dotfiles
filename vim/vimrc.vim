@@ -450,6 +450,8 @@ nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 nnoremap <silent> <leader>gc :<C-u>call <SID>git_switch_with_fzf()<CR>
 
 " ======= commands ======
+" cd command
+command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
 " source current file
 command! Rc source %
 " cd command
