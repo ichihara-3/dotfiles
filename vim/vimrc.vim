@@ -23,7 +23,7 @@ if !exists('g:vim_plug_is_installed')
   endif
 endif
 
-" install junegunn/vim-plug and add
+" install junegunn/vim-plug
 function! s:install_plug() abort
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
@@ -37,8 +37,6 @@ function! s:install_plug() abort
   endif
 endfunction
 
-command! InstallPlug call s:install_plug()
-command! PlugInstallWithSettings PlugInstall | call s:plugin_setting()
 
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
@@ -243,8 +241,6 @@ function! s:buffer_modified ()
   return len(getbufinfo({'bufmodified': 1})) != 0
 endfunction
 
-" cd command
-command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
 function! s:ChangeCurrentDir(directory, bang)
   if a:directory == ''
     lcd %:p:h
@@ -456,6 +452,12 @@ nnoremap <silent> <leader>gc :<C-u>call <SID>git_switch_with_fzf()<CR>
 " ======= commands ======
 " source current file
 command! Rc source %
+" cd command
+command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
+" command to install plugin
+command! InstallPlug call s:install_plug()
+" command to install plugins with settings
+command! PlugInstallWithSettings PlugInstall | call s:plugin_setting()
 
 " ===============================
 "   filetype specific settings
