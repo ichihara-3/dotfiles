@@ -69,6 +69,10 @@ function s:configure_plugins()
     Plug 'junegunn/goyo.vim'
     " terminal empty line enhancement
     Plug 'tyru/empty-prompt.vim'
+    " user operator definition
+    Plug 'kana/vim-operator-user'
+    " replace with register
+    Plug 'kana/vim-operator-replace'
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
@@ -391,6 +395,9 @@ let mapleader = "\<Space>"
 
 " edit vimrc
 nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
+
+" replace
+map _ <Plug>(operator-replace)
 
 " fuzzy search files (fzf)
 " preview with `bat` if executable, if can't, `cat` is used
