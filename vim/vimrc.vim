@@ -245,6 +245,7 @@ function! s:buffer_modified ()
   return len(getbufinfo({'bufmodified': 1})) != 0
 endfunction
 
+" change directory to of current file or specified directory
 function! s:ChangeCurrentDir(directory, bang)
   if a:directory == ''
     lcd %:p:h
@@ -592,6 +593,8 @@ function! s:plugin_setting()
   " ======= lightline settings =======
 
   if s:is_installed('lightline.vim')
+
+    " referenced https://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
     let g:lightline = {
           \ 'colorscheme': 'powerline',
           \ 'mode_map': {'c': 'NORMAL'},
