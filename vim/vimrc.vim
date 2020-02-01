@@ -224,7 +224,7 @@ set splitbelow
 " automatically reload the editing file after the file has externally changed.
 set autoread
 " Allow virtual editing in Visual block mode.
-set virtualedit=all
+set virtualedit=block
 " turn off bells
 set belloff=all
 " enable mouse
