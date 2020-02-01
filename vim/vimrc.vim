@@ -61,6 +61,8 @@ function s:configure_plugins()
     " fuzzy file finder
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
+    " fzf with most recently used files
+    Plug 'pbogut/fzf-mru.vim'
     " undo tree
     Plug 'mbbill/undotree'
     " enhance netrw
@@ -401,13 +403,18 @@ nnoremap <silent> <leader>s :<C-u>exec 'edit' g:my_vimrc_file<CR>
 map _ <Plug>(operator-replace)
 
 " fuzzy search files (fzf)
+
+function! s:preview_command()
+  return  executable('bat') ? 'bat  --color=always --style=header,grid --line-range :100 {}' : 'cat {}'
+endfunction
+
 " preview with `bat` if executable, if can't, `cat` is used
 nnoremap <silent> <leader><Space> :<C-u>call fzf#vim#files(
       \ '',
       \ {'options': [
       \           '--reverse',
       \           '--info=inline',
-      \           '--preview', executable('bat') ? 'bat  --color=always --style=header,grid --line-range :100 {}' : 'cat {}'
+      \           '--preview', <SID>preview_command()
       \ ]},
       \ 0
       \ )<CR>
@@ -420,6 +427,8 @@ nnoremap <silent> <leader>h :<C-u>call fzf#vim#history()<CR>
 " command history
 nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
 cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
+" fuzzy search most recently used files
+nnoremap <silent> <leader>m :<C-u>execute 'FZFMru --preview ' .. "'" .. <SID>preview_command() .. "'"<CR>
 
 " change current directory
 nnoremap <silent> <leader>cd :<C-u>CD<CR>
