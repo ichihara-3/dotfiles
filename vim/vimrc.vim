@@ -76,6 +76,8 @@ function s:configure_plugins()
     " replace with register
     Plug 'kana/vim-operator-replace'
 
+    Plug 'ichihara-3/fzf-gitswitch.vim'
+
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
     if executable('clang') && executable('clang-format')
@@ -295,103 +297,6 @@ augroup END
 " set colorscheme
 colorscheme slate
 
-" ======= git ======
-
-" switch branch with fzf window
-function! s:git_switch_with_fzf ()
-  let l:cwd = getcwd()
-  let l:changeto = expand('%:p:h')
-  call chdir(l:changeto)
-
-  try
-    let l:branches = s:branches()
-    call fzf#run(fzf#wrap({
-    \ 'source': l:branches,
-    \ 'sink': function('s:switch')
-    \ }))
-  catch
-    echohl Warningmsg
-    echomsg "the file not in a git repo"
-    echohl None
-  finally
-    call chdir(l:cwd)
-  endtry
-endfunction
-
-" get branches
-function! s:branches () abort
-
-  if !s:is_in_git_repo()
-    throw "not in git repo"
-  endif
-
-  let l:current = trim(system("git branch --points-at=HEAD --format='%(HEAD)%(refname:lstrip=2)'| sed -n '/^\*/p' | tr -d '*'"))
-  let l:remote = system('git branch -r |sed -e "/HEAD/d" -e "/->/d" -e "/' .. escape(l:current, '/') .. '/d"')
-  let l:local = system('git branch |sed -e "/\*/d" -e "/' .. escape(l:current, '/') .. '/d"')
-
-  return s:add_label(split(l:remote, '\n'), 'remote') + s:add_label(split(l:local, '\n'), 'local')
-endfunction
-
-function! s:add_label (branches, label) abort
- return map(copy(a:branches), {_, el -> a:label .. ":\t" .. trim(el)})
-endfunction
-
-function! s:is_in_git_repo() abort
-  silent let l:result = trim(system("git rev-parse --is-inside-work-tree"))
-  return l:result == 'true'
-endfunction
-
-function! s:switch(line) abort
-  let l:branch = s:get_branchname(a:line)
-  call s:git_switch(l:branch)
-endfunction
-
-function! s:get_branchname(line) abort
-  if s:is_remote(a:line)
-    let l:separated = split(substitute(a:line, '^remote:\t', '', ''), '/')
-    let l:branch = trim(len(l:separated) == 1 ? separated[0] : join(l:separated[1:], '/'))
-  else
-    let l:branch = trim(substitute(a:line, '^local:\t', '', ''))
-  endif
-  return l:branch
-endfunction
-
-function! s:is_remote(line) abort
-  return match(a:line, '^remote:\t') != -1
-endfunction
-
-" switch to the specified branch
-function! s:git_switch (branch) abort
-  if s:buffer_modified()
-    echohl Warningmsg
-    echomsg 'some buffers has changed. save or discard them.'
-    echohl None
-    return
-  endif
-
-  silent let l:result = system('git switch ' .. a:branch)
-  if v:shell_error != 0
-    silent let l:result = system('git checkout ' .. a:branch)
-    if v:shell_error != 0
-      silent let l:result = system('git -b checkout ' .. a:branch)
-    endif
-  endif
-  if v:shell_error == 0
-    if s:buffer_exists()
-      bufdo edit!
-    endif
-    echomsg 'switched to ::' .. a:branch
-  else
-    echohl Warningmsg
-    echomsg l:result
-    echohl None
-  endif
-endfunction
-
-function! s:buffer_exists()
-  return len(filter(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val) != ""')) >= 1
-endfunction
-
 " ======= key mappings ======
 " set mapleader to <space> key
 let mapleader = "\<Space>"
@@ -464,7 +369,7 @@ nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
 " Gdiff
 nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 " git checkout
-nnoremap <silent> <leader>gc :<C-u>call <SID>git_switch_with_fzf()<CR>
+nmap <silent> <leader>gc <Plug>(fzf_gs)
 
 " ======= commands ======
 " cd command
