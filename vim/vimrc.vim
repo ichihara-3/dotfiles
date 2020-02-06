@@ -75,7 +75,7 @@ function s:configure_plugins()
     Plug 'kana/vim-operator-user'
     " replace with register
     Plug 'kana/vim-operator-replace'
-
+    " fzf git switch
     Plug 'ichihara-3/fzf-gitswitch.vim'
 
     " ====== languages support ======
@@ -254,7 +254,7 @@ function! s:ChangeCurrentDir(directory, bang)
   if a:directory == ''
     lcd %:p:h
   else
-    execute 'lcd' .. a:directory
+    execute 'lcd ' .. a:directory
   endif
 
   if a:bang == ''
