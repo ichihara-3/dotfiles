@@ -77,6 +77,8 @@ function s:configure_plugins()
     Plug 'kana/vim-operator-replace'
     " fzf git switch
     Plug 'ichihara-3/fzf-gitswitch.vim'
+    " molokai
+    Plug 'tomasr/molokai'
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
@@ -154,6 +156,10 @@ set path+=**
 " ======= appearance ======
 " underline on where cursor is
 set cursorline
+" show vertical column line
+set cursorcolumn
+" show textwidth line
+set colorcolumn=+1
 " print the line number in front of each lines
 set number
 " use ambiguous width font with twice of ascii's.
@@ -276,8 +282,9 @@ function! DefineMyColors()
   highlight clear SpellRare
   highlight SpellRare cterm=underline
 
-  " set Popup menu color to: Gray(7)
-  highlight Pmenu ctermbg=7
+  " set Popup menu color to: 8
+  highlight Pmenu ctermbg=8
+
 
   " vimdiff scheme colors
   highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
@@ -295,7 +302,7 @@ augroup ChangeColors
 augroup END
 
 " set colorscheme
-colorscheme slate
+colorscheme molokai
 
 " ======= key mappings ======
 " set mapleader to <space> key
