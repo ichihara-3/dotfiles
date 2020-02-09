@@ -58,11 +58,15 @@ function s:configure_plugins()
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
     Plug 'itchyny/lightline.vim'
+
     " fuzzy file finder
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
     " fzf with most recently used files
     Plug 'pbogut/fzf-mru.vim'
+    " fzf git switch
+    Plug 'ichihara-3/fzf-gitswitch.vim'
+
     " undo tree
     Plug 'mbbill/undotree'
     " enhance netrw
@@ -75,8 +79,7 @@ function s:configure_plugins()
     Plug 'kana/vim-operator-user'
     " replace with register
     Plug 'kana/vim-operator-replace'
-    " fzf git switch
-    Plug 'ichihara-3/fzf-gitswitch.vim'
+
     " molokai
     Plug 'tomasr/molokai'
 
@@ -361,7 +364,9 @@ nnoremap <silent> <leader>t :<C-u>terminal<CR>
 
 " window
 " split virtical
-nnoremap <silent> <leader>v :<C-u>vs<CR>
+nnoremap <silent> <leader>v :<C-u>vsplit<CR>
+" split horizontal
+nnoremap <silent> <leader>- :<C-u>split<CR>
 " close window
 nnoremap <silent> <leader>x :<C-u>close<CR>
 
