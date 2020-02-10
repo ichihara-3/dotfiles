@@ -305,7 +305,7 @@ augroup ChangeColors
 augroup END
 
 " set colorscheme
-colorscheme molokai
+colorscheme slate
 
 " ======= key mappings ======
 " set mapleader to <space> key
@@ -515,6 +515,12 @@ function! s:plugin_setting()
     augroup END
   endif
 
+
+  " ======= colorscheme  =======
+
+  if s:is_installed('molokai')
+    colorscheme molokai
+  endif
 
   " ======= lightline settings =======
 
