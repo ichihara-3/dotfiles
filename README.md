@@ -1,12 +1,10 @@
 # dotfiles
 
-contents
+contents::
 
 
 ```
 .
-├── .gitignore
-├── .my.zsh
 ├── README.md
 ├── install_nvim_init.sh
 ├── install_tmuxconf.sh
@@ -14,7 +12,7 @@ contents
 ├── nvim
 │   └── init.vim
 ├── tmux
-│   └── .tmux.conf
+│   └── tmux.conf
 └── vim
-    └── .vimrc
+    └── vimrc.vim
 ```
