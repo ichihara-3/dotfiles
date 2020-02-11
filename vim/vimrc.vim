@@ -58,6 +58,8 @@ function s:configure_plugins()
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
     Plug 'itchyny/lightline.vim'
+    " show indent guide
+    Plug 'nathanaelkane/vim-indent-guides'
 
     " fuzzy file finder
     Plug 'junegunn/fzf'
@@ -294,6 +296,14 @@ function! DefineMyColors()
   highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
   highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
   highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
+
+  " indent colors
+  if s:is_installed('vim-indent-guides')
+    let indent_guides_auto_colors = 0
+    let indent_guides_guide_size = 1
+    hi IndentGuidesOdd ctermbg=0
+    hi IndentGuidesEven ctermbg=8
+  endif
 
 endfunction
 
@@ -593,6 +603,7 @@ function! s:plugin_setting()
     endfunction
 
   endif
+
 
 endfunction
 
