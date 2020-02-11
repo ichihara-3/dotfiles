@@ -339,7 +339,7 @@ nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {'options': ['--rever
 " fuzzy search lines
 nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {'options': ['--reverse']})<CR>
 " fuzzy search buffers history
-nnoremap <silent> <leader>h :<C-u>call fzf#vim#history()<CR>
+nmap <silent> <leader>h <Plug>(lsp-hover)
 " command history
 nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
 cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
