@@ -37,7 +37,6 @@ function! s:install_plug() abort
   endif
 endfunction
 
-
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
 
@@ -118,7 +117,6 @@ function s:configure_plugins()
     " LSP auto settings
     Plug 'mattn/vim-lsp-settings'
 
-
   call plug#end()
 endfunction
 
@@ -136,7 +134,6 @@ function! s:is_installed(name) abort
   " if the plugin is already installed.
   return has_key(g:plugs, a:name) ? isdirectory(g:plugs[a:name].dir) : 0
 endfunction
-
 
 " enable syntax highlighting
 syntax enable
@@ -157,7 +154,6 @@ set ignorecase
 " add current path with fuzzy search
 set path+=**
 
-
 " ======= appearance ======
 " underline on where cursor is
 set cursorline
@@ -175,7 +171,6 @@ set ambiwidth=double
 " set shorter for vim-gitgutter:
 "   https://github.com/airblade/vim-gitgutter#getting-started
 set updatetime=100
-
 
 " ======= status ======
 " show typing commands and counts of selected area
@@ -200,7 +195,6 @@ set noshowmode
 set wildmenu
 set wildmode=longest,full
 
-
 " ======= completion ======
 " set spell check
 set spell
@@ -208,7 +202,6 @@ set spelllang=en,cjk
 
 " adjust letter-case with auto-completion
 set infercase
-
 
 " ======= editing ======
 " undo directory
@@ -273,7 +266,6 @@ function! s:ChangeCurrentDir(directory, bang)
   endif
 endfunction
 
-
 " ======= colors ======
 " define color settings before set color schema
 function! DefineMyColors()
@@ -289,7 +281,6 @@ function! DefineMyColors()
 
   " set Popup menu color to: 8
   highlight Pmenu ctermbg=8
-
 
   " vimdiff scheme colors
   highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
@@ -525,7 +516,6 @@ function! s:plugin_setting()
     augroup END
   endif
 
-
   " ======= colorscheme  =======
 
   if s:is_installed('molokai')
@@ -603,7 +593,6 @@ function! s:plugin_setting()
     endfunction
 
   endif
-
 
 endfunction
 
