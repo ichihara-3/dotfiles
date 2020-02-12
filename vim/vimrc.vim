@@ -292,9 +292,15 @@ function! DefineMyColors()
   if s:is_installed('vim-indent-guides')
     let indent_guides_auto_colors = 0
     let indent_guides_guide_size = 1
-    hi IndentGuidesOdd ctermbg=0
-    hi IndentGuidesEven ctermbg=8
+    highlight IndentGuidesOdd ctermbg=0
+    highlight IndentGuidesEven ctermbg=8
   endif
+
+
+  " comment colors
+    highlight Comment ctermfg=102
+  " visual mode colors
+    highlight Visual  ctermbg=236
 
 endfunction
 
