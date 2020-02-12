@@ -413,7 +413,7 @@ augroup END
 
 augroup FileTypeIndent
   autocmd!
-  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,sh setlocal tabstop=2
+  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,json,sh,bash,zsh setlocal tabstop=2
 augroup END
 
 " not to comment out on newline: r(when insert) o(when normal and type 'o' 'O')
