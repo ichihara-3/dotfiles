@@ -395,10 +395,10 @@ nmap <silent> <leader>gc <Plug>(fzf_gs)
 command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
 " source current file
 command! Rc source %
-" command to install plugin
+" command to install vim-plug
 command! InstallPlug call s:install_plug()
 " command to install plugins with settings
-command! PlugInstallWithSettings PlugInstall | call s:plugin_setting()
+command! PlugInstallWithSettings PlugInstall | call s:set_up_plugins()
 
 " ===============================
 "   filetype specific settings
@@ -414,7 +414,8 @@ augroup FileTypeIndent
   autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,json,sh,bash,zsh setlocal tabstop=2
 augroup END
 
-" not to comment out on newline: r(when insert) o(when normal and type 'o' 'O')
+" not to comment out on newline:
+" r: when insert, o:when normal and type 'o' 'O'
 augroup NoNewCommentLine
   autocmd!
   autocmd FileType * setlocal formatoptions-=ro
@@ -424,7 +425,7 @@ augroup END
 "         plugin settings
 " ===============================
 
-function! s:plugin_setting()
+function! s:set_up_plugins()
   " ======= netrw =======
   " window size of netrw
   let g:netrw_winsize = 25
@@ -600,7 +601,7 @@ function! s:plugin_setting()
 
 endfunction
 
-call s:plugin_setting()
+call s:set_up_plugins()
 " ===============================
 "     plugin settings end
 " ===============================
