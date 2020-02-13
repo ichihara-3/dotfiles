@@ -395,8 +395,6 @@ nmap <silent> <leader>gc <Plug>(fzf_gs)
 command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
 " source current file
 command! Rc source %
-" cd command
-command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
 " command to install plugin
 command! InstallPlug call s:install_plug()
 " command to install plugins with settings
