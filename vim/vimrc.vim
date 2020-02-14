@@ -358,13 +358,20 @@ nnoremap <silent> <leader>cd :<C-u>CD<CR>
 " turn off highlight with typing Esc Key twice
 nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
 
+" toggle numbers
+function! s:toggle_numbers()
+  let &number = !&number
+endfunction
+
+nnoremap <silent> <leader>nn :<C-u>call <SID>toggle_numbers()<CR>
+
 " tabs
 " new tab
 nnoremap <silent> <leader>, :<C-u>tabnew<CR>
 " next tab
-nnoremap <silent> <leader>n :<C-u>tabnext<CR>
+nnoremap <silent> <leader>tn :<C-u>tabnext<CR>
 " previous tab
-nnoremap <silent> <leader>p :<C-u>tabprevious<CR>
+nnoremap <silent> <leader>tp :<C-u>tabprevious<CR>
 
 " terminal
 nnoremap <silent> <leader>t :<C-u>terminal<CR>
