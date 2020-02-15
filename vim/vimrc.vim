@@ -580,7 +580,7 @@ function! s:set_up_plugins()
 
     function! MyFugitive()
       try
-        if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+        if &ft !~? 'vimfiler\|gundo'
           return ' ' .. fugitive#head()
         endif
       catch
