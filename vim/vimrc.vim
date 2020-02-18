@@ -399,7 +399,7 @@ nmap <silent> <leader>gc <Plug>(fzf_gs)
 
 " ======= commands ======
 " cd command
-command! -nargs=? -complete=dir -bang CD call s:ChangeCurrentDir('<args>','<bang>')
+command! -nargs=? -complete=dir -bang CD call <SID>ChangeCurrentDir('<args>','<bang>')
 " source current file
 command! Rc source %
 " command to install vim-plug
@@ -574,8 +574,15 @@ function! s:set_up_plugins()
             \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
             \  &ft == 'unite' ? unite#get_status_string() :
             \  &ft == 'vimshell' ? vimshell#get_status_string() :
-            \ '' != expand('%:t') ? expand('%:t') : '[No Name]') ..
+            \ '' != expand('%:t') ? <SID>shorten_name(expand('%:p'), 40) : '[No Name]') ..
             \ ('' != MyModified() ? ' ' .. MyModified() : '')
+    endfunction
+
+    function! s:shorten_name(name, length)
+      let l:length = a:length <= 5 ? 5: a:length
+      let l:prefix_length = (l:length - 3) / 5
+      let l:suffix_length = (l:length - 3) / 5 * 4
+      return len(a:name) <= l:length ? a:name : a:name[0:l:prefix_length] .. '...' .. a:name[len(a:name)-l:suffix_length-1:len(a:name)]
     endfunction
 
     function! MyFugitive()
