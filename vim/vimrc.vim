@@ -518,7 +518,7 @@ function! s:set_up_plugins()
       call empty_prompt#map(#{lhs: '<Esc>', rhs: '<C-w>N'})
 
       " empty prompt pattern
-      let g:empty_prompt#pattern = '❯\s*$'
+      let g:empty_prompt#pattern = '\(❯\|.*\$\)\s*$'
 
     endfunction
 
