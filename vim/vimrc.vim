@@ -182,18 +182,6 @@ set showcmd
 set laststatus=2
 " mode in status line is no longer needed since lightline shows it
 set noshowmode
-" show lines and columns
-" set ruler
-" statusline
-" %F: Full path to the file
-" %m: modify flag:: modifiable -> + / unmodifilable -> -
-" %=: right aligned
-" %y: filetype
-" %c: column number
-" %l: current line number
-" %L: number of lines of the fille
-" set statusline=%F%m%=%y[ENC=%{&fileencoding}]\ \ %c\ [%l/%L]
-
 " complete longest common string, then start wildmenu
 set wildmenu
 set wildmode=longest,full
