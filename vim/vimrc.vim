@@ -360,9 +360,9 @@ nnoremap <silent> <leader>nn :<C-u>call <SID>toggle_numbers()<CR>
 " new tab
 nnoremap <silent> <leader>, :<C-u>tabnew<CR>
 " next tab
-nnoremap <silent> <leader>tn :<C-u>tabnext<CR>
+nnoremap <silent> <leader>n :<C-u>tabnext<CR>
 " previous tab
-nnoremap <silent> <leader>tp :<C-u>tabprevious<CR>
+nnoremap <silent> <leader>p :<C-u>tabprevious<CR>
 
 " terminal
 nnoremap <silent> <leader>t :<C-u>terminal<CR>
