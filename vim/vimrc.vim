@@ -409,7 +409,7 @@ augroup END
 
 augroup FileTypeIndent
   autocmd!
-  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,json,sh,bash,zsh setlocal tabstop=2
+  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,json,sh,bash,zsh,sql setlocal tabstop=2
 augroup END
 
 " not to comment out on newline:
