@@ -143,6 +143,9 @@ syntax enable
 " enable filetype detection, filetype plugin, indent file
 filetype plugin indent on
 
+" use 256 colors mode
+set t_Co=256
+
 " vim help languages
 set helplang=ja
 
@@ -174,6 +177,8 @@ set ambiwidth=double
 " set shorter for vim-gitgutter:
 "   https://github.com/airblade/vim-gitgutter#getting-started
 set updatetime=100
+" a cursor line being int the middle of the window
+set scrolloff=999
 
 " ======= status ======
 " show typing commands and counts of selected area
@@ -417,6 +422,12 @@ augroup END
 augroup NoNewCommentLine
   autocmd!
   autocmd FileType * setlocal formatoptions-=ro
+augroup END
+
+" help specific settings
+augroup HelpSettings
+  autocmd!
+  autocmd BufRead help setlocal scrolloff=0
 augroup END
 
 " ===============================
