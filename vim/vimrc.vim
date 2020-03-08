@@ -417,6 +417,12 @@ augroup FileTypeIndent
   autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,json,sh,bash,zsh,sql setlocal tabstop=2
 augroup END
 
+augroup PythonSettings
+  autocmd!
+  " highlight the keyword `self` not highlighted by default
+  autocmd FileType python syntax keyword keywordSelf self | highlight link keywordSelf Keyword
+augroup END
+
 " not to comment out on newline:
 " r: when insert, o:when normal and type 'o' 'O'
 augroup NoNewCommentLine
