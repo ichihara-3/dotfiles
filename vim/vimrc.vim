@@ -374,7 +374,7 @@ nnoremap <silent> <leader>t :<C-u>terminal<CR>
 
 " window
 " split virtical
-nnoremap <silent> <leader>v :<C-u>vsplit<CR>
+nnoremap <silent> <leader>\| :<C-u>vsplit<CR>
 " split horizontal
 nnoremap <silent> <leader>- :<C-u>split<CR>
 " close window
