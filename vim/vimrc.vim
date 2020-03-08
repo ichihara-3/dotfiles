@@ -177,8 +177,8 @@ set ambiwidth=double
 " set shorter for vim-gitgutter:
 "   https://github.com/airblade/vim-gitgutter#getting-started
 set updatetime=100
-" a cursor line being int the middle of the window
-set scrolloff=999
+" number of screen lines to keep above and below the cursor.
+set scrolloff=2
 
 " ======= status ======
 " show typing commands and counts of selected area
@@ -422,12 +422,6 @@ augroup END
 augroup NoNewCommentLine
   autocmd!
   autocmd FileType * setlocal formatoptions-=ro
-augroup END
-
-" help specific settings
-augroup HelpSettings
-  autocmd!
-  autocmd BufRead help setlocal scrolloff=0
 augroup END
 
 " ===============================
