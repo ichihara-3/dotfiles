@@ -284,19 +284,10 @@ function! DefineMyColors()
   highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
   highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
-  " indent colors
-  if s:is_installed('vim-indent-guides')
-    let indent_guides_auto_colors = 0
-    let indent_guides_guide_size = 1
-    highlight IndentGuidesOdd ctermbg=0
-    highlight IndentGuidesEven ctermbg=8
-  endif
-
-
   " comment colors
     highlight Comment ctermfg=102
   " visual mode colors
-    highlight Visual  ctermbg=236
+    highlight Visual  ctermbg=237
 
 endfunction
 
@@ -534,6 +525,20 @@ function! s:set_up_plugins()
     augroup EmptyLine
       autocmd!
       autocmd VimEnter * ++once call s:empty_prompt_mappings()
+    augroup END
+  endif
+
+  " ======= vim-indent-guides  =======
+
+  " indent colors
+  if s:is_installed('vim-indent-guides')
+    let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_auto_colors = 0
+
+    augroup VimIndent
+      autocmd!
+      autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=0
+      autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=236
     augroup END
   endif
 
