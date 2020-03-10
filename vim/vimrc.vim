@@ -285,9 +285,12 @@ function! DefineMyColors()
   highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
   " comment colors
-    highlight Comment ctermfg=102
+  highlight Comment ctermfg=102
   " visual mode colors
-    highlight Visual  ctermbg=237
+  highlight Visual ctermbg=237
+
+  " cusor column colors
+  highlight CursorColumn ctermbg=234
 
 endfunction
 
@@ -538,7 +541,7 @@ function! s:set_up_plugins()
     augroup VimIndent
       autocmd!
       autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=0
-      autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=236
+      autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=235
     augroup END
   endif
 
