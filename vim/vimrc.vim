@@ -235,7 +235,6 @@ set mouse=a
 " vertical diff with fill lines
 set diffopt=filler,vertical
 " use clipboard
-
 set clipboard=unnamed,unnamedplus
 
 " delete spaces at the end of lines
@@ -441,7 +440,6 @@ function! s:set_up_plugins()
   " open left
   let g:netrw_altv = 1
 
-
   " ======= fzf =======
   if s:is_installed('fzf')
     " layout
@@ -463,9 +461,9 @@ function! s:set_up_plugins()
     let g:clang_cpp_options = '-std=c++17 -stdlib=libc++ -pedantic-errors'
     " auto format after saving the file. clang-format must be installed.
     if executable('clang-format')
-    let g:clang_format_auto = 1
+      let g:clang_format_auto = 1
     else
-    let g:clang_format_auto = 0
+      let g:clang_format_auto = 0
     endif
     " Google style format
     let g:clang_format_style = 'Google'
@@ -576,7 +574,6 @@ function! s:set_up_plugins()
           \   'mode': 'MyMode',
           \ }
           \ }
-
 
     function! MyModified()
       return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
