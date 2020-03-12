@@ -538,7 +538,7 @@ function! s:set_up_plugins()
 
     augroup VimIndent
       autocmd!
-      autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=0
+      autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=234
       autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=235
     augroup END
   endif
