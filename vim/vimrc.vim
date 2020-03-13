@@ -81,8 +81,12 @@ function s:configure_plugins()
     " replace with register
     Plug 'kana/vim-operator-replace'
 
+    " ====== color schemes ======
     " molokai
     Plug 'tomasr/molokai'
+    " gruvbox
+    Plug 'morhetz/gruvbox'
+
 
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
@@ -545,8 +549,8 @@ function! s:set_up_plugins()
 
   " ======= colorscheme  =======
 
-  if s:is_installed('molokai')
-    colorscheme molokai
+  if s:is_installed('gruvbox')
+    colorscheme gruvbox
   endif
 
   " ======= lightline settings =======
