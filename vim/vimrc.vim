@@ -279,18 +279,18 @@ function! DefineMyColors()
   highlight SpellRare cterm=underline
 
   " set Popup menu color to: 8
-  highlight Pmenu ctermbg=8
+  highlight Pmenu ctermfg=237 ctermbg=223
 
   " vimdiff scheme colors
-  highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
-  highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-  highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-  highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
+  highlight DiffAdd    cterm=bold ctermfg=234 ctermbg=230
+  highlight DiffDelete cterm=bold ctermfg=237 ctermbg=223
+  highlight DiffChange cterm=bold ctermfg=239 ctermbg=250
+  highlight DiffText   cterm=bold ctermfg=241 ctermbg=248
 
   " comment colors
   highlight Comment ctermfg=102
   " visual mode colors
-  highlight Visual ctermbg=237
+  highlight Visual ctermfg=237 ctermbg=223
 
 
 endfunction
