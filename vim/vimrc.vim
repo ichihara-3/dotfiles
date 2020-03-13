@@ -558,7 +558,7 @@ function! s:set_up_plugins()
 
     " referenced https://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
     let g:lightline = {
-          \ 'colorscheme': 'powerline',
+          \ 'colorscheme': 'gruvbox',
           \ 'mode_map': {'c': 'NORMAL'},
           \ 'active': {
           \   'left': [ ['mode', 'paste'], ['fugitive', 'filename'] ]
