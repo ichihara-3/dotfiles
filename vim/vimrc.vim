@@ -292,8 +292,6 @@ function! DefineMyColors()
   " visual mode colors
   highlight Visual ctermbg=237
 
-  " cusor column colors
-  highlight CursorColumn ctermbg=234
 
 endfunction
 
@@ -542,8 +540,8 @@ function! s:set_up_plugins()
 
     augroup VimIndent
       autocmd!
-      autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=234
-      autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=235
+      autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=229
+      autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=230
     augroup END
   endif
 
@@ -551,6 +549,7 @@ function! s:set_up_plugins()
 
   if s:is_installed('gruvbox')
     colorscheme gruvbox
+    set background=light
   endif
 
   " ======= lightline settings =======
