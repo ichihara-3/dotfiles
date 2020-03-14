@@ -373,6 +373,17 @@ nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 " git checkout
 nmap <silent> <leader>gc <Plug>(fzf_gs)
 
+" colors
+function! s:toggle_background()
+  if &background == 'dark'
+    set background=light
+  else
+    set background=dark
+  endif
+endfunction
+
+nnoremap <silent> <leader>cc :<C-u>call <SID>toggle_background()<CR>
+
 " ======= commands ======
 " cd command
 command! -nargs=? -complete=dir -bang CD call <SID>ChangeCurrentDir('<args>','<bang>')
