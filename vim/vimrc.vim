@@ -523,11 +523,29 @@ function! s:set_up_plugins()
     let g:indent_guides_enable_on_vim_startup = 0
     let g:indent_guides_auto_colors = 0
 
-    augroup VimIndent
-      autocmd!
-      autocmd VimEnter,Colorscheme * highlight IndentGuidesOdd ctermbg=229
-      autocmd VimEnter,Colorscheme * highlight IndentGuidesEven ctermbg=230
-    augroup END
+    if s:is_installed('gruvbox')
+      function! s:highlight_odd_gruvbox()
+        if &background == 'light'
+          highlight IndentGuidesOdd ctermbg=229
+        else
+          highlight IndentGuidesOdd ctermbg=235
+        endif
+      endfunction
+
+      function! s:highlight_even_gruvbox()
+        if &background == 'light'
+          highlight IndentGuidesEven ctermbg=230
+        else
+          highlight IndentGuidesEven ctermbg=237
+        endif
+      endfunction
+
+      augroup VimIndentGruvBox
+        autocmd!
+        autocmd VimEnter,Colorscheme * call <SID>highlight_odd_gruvbox()
+        autocmd VimEnter,Colorscheme * call <SID>highlight_even_gruvbox()
+      augroup END
+    endif
   endif
 
   " ======= colorscheme  =======
