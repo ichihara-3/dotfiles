@@ -563,7 +563,7 @@ function! s:set_up_plugins()
 
   if s:is_installed('gruvbox')
     colorscheme gruvbox
-    set background=light
+    set background=dark
   endif
 
   " ======= lightline settings =======
