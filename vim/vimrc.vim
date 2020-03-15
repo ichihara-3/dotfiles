@@ -593,11 +593,11 @@ function! s:set_up_plugins()
           \ }
 
     function! MyModified()
-      return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+      return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
     endfunction
 
     function! MyReadonly()
-      return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
+      return &ft !~? 'help' && &readonly ? ' ' : ''
     endfunction
 
     function! MyFilename()
@@ -619,9 +619,7 @@ function! s:set_up_plugins()
 
     function! MyFugitive()
       try
-        if &ft !~? 'vimfiler\|gundo'
-          return ' ' .. fugitive#head()
-        endif
+        return ' ' .. fugitive#head()
       catch
       endtry
       return ''
