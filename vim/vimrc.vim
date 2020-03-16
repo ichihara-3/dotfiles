@@ -570,9 +570,13 @@ function! s:set_up_plugins()
 
   if s:is_installed('lightline.vim')
 
+    function s:lightline_colorscheme()
+      return s:is_installed('gruvbox') ? 'gruvbox' : 'powerline'
+    endfunction
+
     " referenced https://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
     let g:lightline = {
-          \ 'colorscheme': 'gruvbox',
+          \ 'colorscheme': s:lightline_colorscheme(),
           \ 'mode_map': {'c': 'NORMAL'},
           \ 'active': {
           \   'left': [ ['mode', 'paste'], ['fugitive', 'filename'] ]
@@ -591,6 +595,7 @@ function! s:set_up_plugins()
           \   'mode': 'MyMode',
           \ }
           \ }
+
 
     function! MyModified()
       return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
