@@ -80,6 +80,10 @@ function s:configure_plugins()
     Plug 'kana/vim-operator-user'
     " replace with register
     Plug 'kana/vim-operator-replace'
+    " filer
+    Plug 'preservim/nerdtree'
+    " nerdtree git plugin
+    Plug 'Xuyuanp/nerdtree-git-plugin'
 
     " ====== color schemes ======
     " molokai
@@ -308,14 +312,14 @@ endfunction
 
 " preview with `bat` if executable, if can't, `cat` is used
 nnoremap <silent> <leader><Space> :<C-u>call fzf#vim#files(
-      \ '',
-      \ {'options': [
-      \           '--reverse',
-      \           '--info=inline',
-      \           '--preview', <SID>preview_command()
-      \ ]},
-      \ 0
-      \ )<CR>
+    \ '',
+    \ {'options': [
+    \           '--reverse',
+    \           '--info=inline',
+    \           '--preview', <SID>preview_command()
+    \ ]},
+    \ 0
+    \ )<CR>
 " fuzzy search buffers
 nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {'options': ['--reverse']})<CR>
 " fuzzy search lines
@@ -336,7 +340,7 @@ nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
 
 " toggle numbers
 function! s:toggle_numbers()
-  let &number = !&number
+let &number = !&number
 endfunction
 
 nnoremap <silent> <leader>nn :<C-u>call <SID>toggle_numbers()<CR>
@@ -361,7 +365,7 @@ nnoremap <silent> <leader>- :<C-u>split<CR>
 nnoremap <silent> <leader>x :<C-u>close<CR>
 
 " filer
-nnoremap <silent> <leader>f :<C-u>Vexplore<CR>
+nnoremap <silent> <leader>f :<C-u>NERDTreeToggle<CR>
 
 " git
 " Gstatus
