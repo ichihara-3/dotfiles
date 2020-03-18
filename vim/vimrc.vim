@@ -70,8 +70,6 @@ function s:configure_plugins()
 
     " undo tree
     Plug 'mbbill/undotree'
-    " enhance netrw
-    Plug 'tpope/vim-vinegar'
     " Goyo mode
     Plug 'junegunn/goyo.vim'
     " terminal empty line enhancement
@@ -86,8 +84,6 @@ function s:configure_plugins()
     Plug 'Xuyuanp/nerdtree-git-plugin'
 
     " ====== color schemes ======
-    " molokai
-    Plug 'tomasr/molokai'
     " gruvbox
     Plug 'morhetz/gruvbox'
 
@@ -340,7 +336,7 @@ nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
 
 " toggle numbers
 function! s:toggle_numbers()
-let &number = !&number
+  let &number = !&number
 endfunction
 
 nnoremap <silent> <leader>nn :<C-u>call <SID>toggle_numbers()<CR>
@@ -430,17 +426,6 @@ augroup END
 " ===============================
 
 function! s:set_up_plugins()
-  " ======= netrw =======
-  " window size of netrw
-  let g:netrw_winsize = 25
-  " hide netrw direcory banner
-  let g:netrw_banner = 0
-  " tree view
-  let g:netrw_liststyle = 3
-  " open in previous window
-  let g:netrw_browse_split = 4
-  " open left
-  let g:netrw_altv = 1
 
   " ======= fzf =======
   if s:is_installed('fzf')
