@@ -320,8 +320,8 @@ nnoremap <silent> <leader><Space> :<C-u>call fzf#vim#files(
 nnoremap <silent> <leader>b :<C-u>call fzf#vim#buffers('', {'options': ['--reverse']})<CR>
 " fuzzy search lines
 nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {'options': ['--reverse']})<CR>
-" fuzzy search buffers history
-nmap <silent> <leader>h <Plug>(lsp-hover)
+" fuzzy search with ag
+nnoremap <silent> <leader>a :<C-u>Ag<space>
 " command history
 nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
 cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
@@ -330,6 +330,9 @@ nnoremap <silent> <leader>m :<C-u>execute 'FZFMru --preview ' .. "'" .. <SID>pre
 
 " change current directory
 nnoremap <silent> <leader>cd :<C-u>CD<CR>
+
+" lsp help
+nmap <silent> <leader>h <Plug>(lsp-hover)
 
 " turn off highlight with typing Esc Key twice
 nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
