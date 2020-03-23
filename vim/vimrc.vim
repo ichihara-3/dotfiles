@@ -72,8 +72,10 @@ function s:configure_plugins()
     Plug 'mbbill/undotree'
     " Goyo mode
     Plug 'junegunn/goyo.vim'
-    " terminal empty line enhancement
-    Plug 'tyru/empty-prompt.vim'
+    if !has('nvim')
+      " terminal empty line enhancement
+      Plug 'tyru/empty-prompt.vim'
+    endif
     " user operator definition
     Plug 'kana/vim-operator-user'
     " replace with register
