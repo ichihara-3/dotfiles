@@ -189,6 +189,13 @@ set updatetime=100
 " number of screen lines to keep above and below the cursor.
 set scrolloff=2
 
+" gui font
+if has("gui_running")
+  if has("gui_macvim")
+    set guifont=Ricty:h17
+  endif
+endif
+
 " ======= status ======
 " show typing commands and counts of selected area
 set showcmd
