@@ -385,8 +385,25 @@ nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
 nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
 " Gdiff
 nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
-" git checkout
+" git switch
 nmap <silent> <leader>gc <Plug>(fzf_gs)
+" git checkout new branch
+function! s:git_switch_prompt()
+  let branchname = inputdialog("branch name >> ")
+  if branchname != ''
+    let cwd = getcwd()
+    let changeto = expand('%:p:h')
+    call chdir(changeto)
+    silent call system('git show-ref --verify --quiet "refs/heads/' .. branchname .. '"')
+    if v:shell_error
+      execute "Git switch -c " .. branchname
+    else
+      execute "Git switch " .. branchname
+    endif
+    call chdir(cwd)
+  endif
+endfunction
+nnoremap <silent> <leader>gn :<c-u>call <SID>git_switch_prompt()<CR>
 
 " colors
 function! s:toggle_background()
