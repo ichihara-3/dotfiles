@@ -315,7 +315,7 @@ map _ <Plug>(operator-replace)
 " fuzzy search files (fzf)
 
 function! s:preview_command()
-  return  executable('bat') ? 'bat  --color=always --style=header,grid --line-range :100 {}' : 'cat {}'
+  return  executable('bat') ? 'bat  --style=header,grid --line-range :100 {}' : 'cat {}'
 endfunction
 
 " preview with `bat` if executable, if can't, `cat` is used
