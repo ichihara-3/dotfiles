@@ -389,14 +389,18 @@ nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 nmap <silent> <leader>gc <Plug>(fzf_gs)
 " git checkout new branch
 function! s:git_switch_prompt()
-  let branchname = inputdialog("branch name >> ")
+  let branchname = trim(inputdialog("branch name >> "))
   if branchname != ''
     let cwd = getcwd()
     let changeto = expand('%:p:h')
     call chdir(changeto)
     silent call system('git show-ref --verify --quiet "refs/heads/' .. branchname .. '"')
     if v:shell_error
-      execute "Git switch -c " .. branchname
+      if confirm("Checkout a new branch?", "&Yes\n&No") == 1
+        execute "Git switch -c " .. branchname
+      else
+        return
+      endif
     else
       execute "Git switch " .. branchname
     endif
