@@ -389,7 +389,7 @@ nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 nmap <silent> <leader>gc <Plug>(fzf_gs)
 " git checkout new branch
 function! s:git_switch_prompt()
-  let branchname = trim(inputdialog("branch name >> "))
+  let branchname = trim(input("branch name(<TAB> for completion) >> ", "", "customlist,fugitive#CompleteObject"))
   if branchname != ''
     let cwd = getcwd()
     let changeto = expand('%:p:h')
