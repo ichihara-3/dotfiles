@@ -380,9 +380,9 @@ nnoremap <silent> <leader>f :<C-u>NERDTreeToggle<CR>
 
 " git
 " Gstatus
-nnoremap <silent> <leader>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <leader>gs :<C-u>Git<CR>
 " Gpush
-nnoremap <silent> <leader>gp :<C-u>Gpush<CR>
+nnoremap <silent> <leader>gp :<C-u>Git push<CR>
 " Gdiff
 nnoremap <silent> <leader>gd :<C-u>Gdiffsplit<CR>
 " git switch
