@@ -393,18 +393,21 @@ function! s:git_switch_prompt()
   if branchname != ''
     let cwd = getcwd()
     let changeto = expand('%:p:h')
-    call chdir(changeto)
-    silent call system('git show-ref --verify --quiet "refs/heads/' .. branchname .. '"')
-    if v:shell_error
-      if confirm("Checkout a new branch?", "&Yes\n&No") == 1
-        execute "Git switch -c " .. branchname
+    try
+      call chdir(changeto)
+      silent call system('git show-ref --verify --quiet "refs/heads/' .. branchname .. '"')
+      if v:shell_error
+        if confirm("Checkout a new branch?", "&Yes\n&No") == 1
+          execute "Git switch -c " .. branchname
+        else
+          return
+        endif
       else
-        return
+        execute "Git switch " .. branchname
       endif
-    else
-      execute "Git switch " .. branchname
-    endif
-    call chdir(cwd)
+    finally
+      call chdir(cwd)
+    endtry
   endif
 endfunction
 nnoremap <silent> <leader>gn :<c-u>call <SID>git_switch_prompt()<CR>
