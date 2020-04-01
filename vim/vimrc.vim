@@ -403,6 +403,7 @@ function! s:git_switch_prompt()
           return
         endif
       else
+        redraw
         execute "Git switch " .. branchname
       endif
     finally
