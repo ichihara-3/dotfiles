@@ -252,6 +252,8 @@ set mouse=a
 set diffopt=filler,vertical
 " use clipboard
 set clipboard=unnamed,unnamedplus
+" numbers are always considered to be decimal
+set nrformats=
 
 " delete spaces at the end of lines
 augroup PreWriting
