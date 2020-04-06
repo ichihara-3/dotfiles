@@ -57,8 +57,6 @@ function s:configure_plugins()
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
     Plug 'itchyny/lightline.vim'
-    " show indent guide
-    Plug 'nathanaelkane/vim-indent-guides'
 
     " fuzzy file finder
     Plug 'junegunn/fzf'
@@ -68,8 +66,6 @@ function s:configure_plugins()
     " fzf git switch
     Plug 'ichihara-3/fzf-gitswitch.vim'
 
-    " undo tree
-    Plug 'mbbill/undotree'
     " Goyo mode
     Plug 'junegunn/goyo.vim'
     if !has('nvim')
@@ -558,39 +554,7 @@ function! s:set_up_plugins()
     augroup END
   endif
 
-  " ======= vim-indent-guides  =======
-
-  " indent colors
-  if s:is_installed('vim-indent-guides')
-    let g:indent_guides_enable_on_vim_startup = 0
-    let g:indent_guides_auto_colors = 0
-
-    if s:is_installed('gruvbox')
-      function! s:highlight_odd_gruvbox()
-        if &background == 'light'
-          highlight IndentGuidesOdd ctermbg=229
-        else
-          highlight IndentGuidesOdd ctermbg=235
-        endif
-      endfunction
-
-      function! s:highlight_even_gruvbox()
-        if &background == 'light'
-          highlight IndentGuidesEven ctermbg=230
-        else
-          highlight IndentGuidesEven ctermbg=237
-        endif
-      endfunction
-
-      augroup VimIndentGruvBox
-        autocmd!
-        autocmd VimEnter,Colorscheme * call <SID>highlight_odd_gruvbox()
-        autocmd VimEnter,Colorscheme * call <SID>highlight_even_gruvbox()
-      augroup END
-    endif
-  endif
-
-  " ======= colorscheme  =======
+ " ======= colorscheme  =======
 
   if s:is_installed('gruvbox')
     colorscheme gruvbox
