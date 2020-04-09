@@ -85,7 +85,6 @@ function s:configure_plugins()
     " gruvbox
     Plug 'morhetz/gruvbox'
 
-
     " ====== languages support ======
     " clang support. clang and clang-format should be installed.
     if executable('clang') && executable('clang-format')
@@ -590,7 +589,6 @@ function! s:set_up_plugins()
           \   'mode': 'MyMode',
           \ }
           \ }
-
 
     function! MyModified()
       return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
