@@ -220,6 +220,8 @@ if &undofile && !isdirectory(&undodir)
   call mkdir(&undodir, 'p')
 endif
 
+" default tabstop is 2
+set tabstop=2
 " width of indent (the size of tabstop is used)
 set shiftwidth=0
 " use spaces to insert a <TAB>
@@ -442,7 +444,7 @@ augroup END
 
 augroup FileTypeIndent
   autocmd!
-  autocmd FileType vim,html,js,ts,css,vue,App,yaml,toml,json,sh,bash,zsh,sql,cpp setlocal tabstop=2
+  autocmd FileType python setlocal tabstop=4
 augroup END
 
 augroup PythonSettings
