@@ -5,14 +5,17 @@ contents::
 
 ```
 .
-├── README.md
-├── install_nvim_init.sh
-├── install_tmuxconf.sh
-├── install_vimrc.sh
-├── nvim
-│   └── init.vim
+├── vim
+│   ├── vimrc.vim
+│   └── debug-lsp.vim
 ├── tmux
 │   └── tmux.conf
-└── vim
-    └── vimrc.vim
+├── nvim
+│   └── init.vim
+├── install_vimrc.sh
+├── install_tmuxconf.sh
+├── install_nvim_init.sh
+├── README.md
+├── .my.zsh
+├── .gitignore
 ```
