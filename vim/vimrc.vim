@@ -363,9 +363,9 @@ nnoremap <silent> <leader>nn :<C-u>call <SID>toggle_numbers()<CR>
 " new tab
 nnoremap <silent> <leader>, :<C-u>tabnew<CR>
 " next tab
-nnoremap <silent> <leader>n :<C-u>tabnext<CR>
+nnoremap <silent> <leader>tn :<C-u>tabnext<CR>
 " previous tab
-nnoremap <silent> <leader>p :<C-u>tabprevious<CR>
+nnoremap <silent> <leader>tp :<C-u>tabprevious<CR>
 
 " terminal
 nnoremap <silent> <leader>t :<C-u>terminal<CR>
@@ -426,6 +426,13 @@ function! s:toggle_background()
 endfunction
 
 nnoremap <silent> <leader>cc :<C-u>call <SID>toggle_background()<CR>
+
+" paste mode
+function! s:toggle_paste()
+  let &paste=!&paste
+endfunction
+
+nnoremap <silent> <leader>pp :<C-u>call <SID>toggle_paste()<CR>
 
 " ======= commands ======
 " cd command
