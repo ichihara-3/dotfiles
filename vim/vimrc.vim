@@ -177,6 +177,10 @@ set number
 " e.g. Japanese Fonts びむ
 " Only effective when 'encoding' is "utf-8"
 set ambiwidth=double
+
+" show some special charcters
+set list
+set listchars=tab:▸-,nbsp:%
 " vim update time span (default 4000ms)
 " set shorter for vim-gitgutter:
 "   https://github.com/airblade/vim-gitgutter#getting-started
