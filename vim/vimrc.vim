@@ -57,6 +57,7 @@ function s:configure_plugins()
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
     Plug 'itchyny/lightline.vim'
+    Plug 'shinchu/lightline-gruvbox.vim'
 
     " fuzzy file finder
     Plug 'junegunn/fzf'
@@ -578,7 +579,7 @@ function! s:set_up_plugins()
   if s:is_installed('lightline.vim')
 
     function s:lightline_colorscheme()
-      return s:is_installed('gruvbox') ? 'gruvbox' : 'powerline'
+      return s:is_installed('lightline-gruvbox.vim') ? 'gruvbox' : 'powerline'
     endfunction
 
     " referenced https://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
