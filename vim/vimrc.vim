@@ -457,6 +457,7 @@ augroup END
 augroup FileTypeIndent
   autocmd!
   autocmd FileType python setlocal tabstop=4
+  autocmd FileType go setlocal tabstop=8
 augroup END
 
 augroup PythonSettings
