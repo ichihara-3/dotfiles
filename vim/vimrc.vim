@@ -349,6 +349,8 @@ nnoremap <silent> <leader>cd :<C-u>CD<CR>
 
 " lsp help
 nmap <silent> <leader>h <Plug>(lsp-hover)
+" show lsp diagnostics
+nmap <silent> <leader>e <Plug>(lsp-document-diagnostics)
 
 " turn off highlight with typing Esc Key twice
 nnoremap <silent> <ESC><ESC> :<C-u>noh<CR>
