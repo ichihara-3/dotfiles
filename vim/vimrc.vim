@@ -307,6 +307,12 @@ augroup END
 colorscheme slate
 
 " ======= key mappings ======
+
+" move display lines with normal up/down keys
+nnoremap j gj
+nnoremap k gk
+
+
 " set mapleader to <space> key
 let mapleader = "\<Space>"
 
