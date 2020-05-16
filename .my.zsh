@@ -14,3 +14,6 @@ alias pn='prompt -s $(prompt -l |tail -n 1 | tr " " "\n" | fzf)'
 autoload -Uz promptinit
 promptinit
 prompt powerlevel10k
+
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/kotaro/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
