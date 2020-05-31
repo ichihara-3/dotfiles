@@ -518,6 +518,10 @@ function! s:set_up_plugins()
     let g:clang_check_syntax_auto = 1
   endif
 
+  " ======= vim-go =======
+
+  let g:go_template_autocreate = 0
+
   " ======= asyncomplete settings =======
 
   if s:is_installed('asyncomplete.vim')
