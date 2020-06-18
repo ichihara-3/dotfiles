@@ -521,6 +521,7 @@ function! s:set_up_plugins()
   " ======= vim-go =======
 
   let g:go_template_autocreate = 0
+  let g:go_fmt_command = "goimports"
 
   " ======= asyncomplete settings =======
 
