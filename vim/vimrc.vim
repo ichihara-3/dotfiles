@@ -66,6 +66,8 @@ function s:configure_plugins()
     Plug 'pbogut/fzf-mru.vim'
     " fzf git switch
     Plug 'ichihara-3/fzf-gitswitch.vim'
+    " powerup register
+    Plug 'junegunn/vim-peekaboo'
 
     " Goyo mode
     Plug 'junegunn/goyo.vim'
