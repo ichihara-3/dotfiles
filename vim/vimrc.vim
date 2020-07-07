@@ -305,9 +305,6 @@ augroup ChangeColors
   autocmd ColorScheme * :call DefineMyColors()
 augroup END
 
-" set colorscheme
-colorscheme slate
-
 " ======= key mappings ======
 
 " move display lines with normal up/down keys
