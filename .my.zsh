@@ -20,7 +20,8 @@ prompt powerlevel10k
 HEROKU_AC_ZSH_SETUP_PATH=/Users/kotaro/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 
 export GOPATH=~/go/
+export REPOS=${REPODIR:-~/repos}
 
 if [ -e ~/repos/ichihara-3/fzfcd/init.zsh ]; then
-  source ~/repos/ichihara-3/fzfcd/init.zsh
+  source ${REPOS}/ichihara-3/fzfcd/init.zsh
 fi
