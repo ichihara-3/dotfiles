@@ -124,8 +124,6 @@ function s:configure_plugins()
     " LSP auto settings
     Plug 'mattn/vim-lsp-settings'
 
-    " DB access
-    Plug 'vim-scripts/dbext.vim'
 
   call plug#end()
 endfunction
@@ -555,12 +553,6 @@ function! s:set_up_plugins()
     augroup END
   endif
 
-  " ======= dbext  =======
-
-  if s:is_installed('dbext.vim')
-    let g:dbext_default_profile_PG = 'type=PGSQL:user=postgres:passwd=pass:host=localhost:dbname=test:port=5432'
-    let g:dbext_default_profile = 'PG'
-  endif
 
   " ======= vim-empty-line =======
   if s:is_installed('empty-prompt.vim')
