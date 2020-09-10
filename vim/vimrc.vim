@@ -56,8 +56,9 @@ function s:configure_plugins()
     " show git diff in the sign column
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
-    Plug 'itchyny/lightline.vim'
-    Plug 'shinchu/lightline-gruvbox.vim'
+    " Plug 'itchyny/lightline.vim'
+    " Plug 'shinchu/lightline-gruvbox.vim'
+    Plug 'rbong/vim-crystalline'
 
     " fuzzy file finder
     Plug 'junegunn/fzf'
@@ -486,6 +487,19 @@ augroup END
 " ===============================
 
 function! s:set_up_plugins()
+
+  " ======= vim-crystalline =======
+  if s:is_installed('vim-crystalline')
+    function! StatusLine()
+      return ' %f%h%w%m%r '
+    endfunction
+
+    "
+    set statusline=%!StatusLine()
+    set laststatus=2
+
+  endif
+
 
   " ======= fzf =======
   if s:is_installed('fzf')
