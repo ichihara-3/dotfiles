@@ -56,8 +56,6 @@ function s:configure_plugins()
     " show git diff in the sign column
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
-    " Plug 'itchyny/lightline.vim'
-    " Plug 'shinchu/lightline-gruvbox.vim'
     Plug 'rbong/vim-crystalline'
 
     " fuzzy file finder
@@ -490,13 +488,47 @@ function! s:set_up_plugins()
 
   " ======= vim-crystalline =======
   if s:is_installed('vim-crystalline')
-    function! StatusLine()
-      return ' %f%h%w%m%r '
+    function! StatusLine(current, width)
+      let l:s = ''
+
+      if a:current
+        let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+      else
+        let l:s .= '%#CrystallineInactive#'
+      endif
+      let l:s .= ' %f%h%w%m%r '
+      if a:current
+        let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()}'
+      endif
+
+      let l:s .= '%='
+      if a:current
+        let l:s .= crystalline#left_sep('', 'Fill') . ' %{&paste ?"PASTE ":""}%{&spell?"SPELL ":""}'
+        let l:s .= crystalline#left_mode_sep('')
+      endif
+      if a:width > 80
+        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+      else
+        let l:s .= ' '
+      endif
+
+      return l:s
     endfunction
 
-    "
-    set statusline=%!StatusLine()
+    function! TabLine()
+      let l:vimlabel = has('nvim') ?  ' NVIM ' : ' VIM '
+      return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab# ' . l:vimlabel
+    endfunction
+
+    let g:crystalline_enable_sep = 1
+    let g:crystalline_statusline_fn = 'StatusLine'
+    let g:crystalline_tabline_fn = 'TabLine'
+    let g:crystalline_theme = 'gruvbox'
+
+    set showtabline=2
+    set guioptions-=e
     set laststatus=2
+
 
   endif
 
@@ -594,87 +626,6 @@ function! s:set_up_plugins()
   if s:is_installed('gruvbox')
     colorscheme gruvbox
     set background=dark
-  endif
-
-  " ======= lightline settings =======
-
-  if s:is_installed('lightline.vim')
-
-    function s:lightline_colorscheme()
-      return s:is_installed('lightline-gruvbox.vim') ? 'gruvbox' : 'powerline'
-    endfunction
-
-    " referenced https://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
-    let g:lightline = {
-          \ 'colorscheme': s:lightline_colorscheme(),
-          \ 'mode_map': {'c': 'NORMAL'},
-          \ 'active': {
-          \   'left': [ ['mode', 'paste'], ['fugitive', 'filename'] ]
-          \ },
-          \ 'component': {
-          \   'lineinfo': '%3l:%-2v',
-          \ },
-          \ 'component_function': {
-          \   'modified': 'MyModified',
-          \   'readonly': 'MyReadonly',
-          \   'fugitive': 'MyFugitive',
-          \   'filename': 'MyFilename',
-          \   'fileformat': 'MyFileformat',
-          \   'filetype': 'MyFiletype',
-          \   'fileencoding': 'MyFileencoding',
-          \   'mode': 'MyMode',
-          \ }
-          \ }
-
-    function! MyModified()
-      return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-    endfunction
-
-    function! MyReadonly()
-      return &ft !~? 'help' && &readonly ? ' ' : ''
-    endfunction
-
-    function! MyFilename()
-      return ('' != MyReadonly() ? MyReadonly() .. ' ' : '') ..
-            \ ('' != expand('%:t') ? <SID>shorten_path(expand('%:p'), 2) : '[No Name]') ..
-            \ ('' != MyModified() ? ' ' .. MyModified() : '')
-    endfunction
-
-    function! s:shorten_path(name, show_depth)
-      let l:sep = fnamemodify('.', ':p')[-1:]
-      let l:prefix = a:name[0] == l:sep ? l:sep : ''
-      let l:pathlist = split(a:name, l:sep)
-      let l:longname_count = len(l:pathlist) <= a:show_depth ? len(l:pathlist) : a:show_depth
-      for l:i in range(len(l:pathlist)-l:longname_count)
-        let l:pathlist[i] = l:pathlist[i][0]
-      endfor
-      return l:prefix .. join(l:pathlist, l:sep)
-    endfunction
-
-    function! MyFugitive()
-      try
-        return ' ' .. fugitive#head()
-      catch
-      endtry
-      return ''
-    endfunction
-
-    function! MyFileformat()
-      return winwidth(0) > 70 ? &fileformat : ''
-    endfunction
-
-    function! MyFiletype()
-      return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-    endfunction
-
-    function! MyFileencoding()
-      return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-    endfunction
-
-    function! MyMode()
-      return winwidth(0) > 60 ? lightline#mode() : ''
-    endfunction
-
   endif
 
 endfunction
