@@ -492,13 +492,13 @@ function! s:set_up_plugins()
       let l:s = ''
 
       if a:current
-        let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+        let l:s .= crystalline#mode() . crystalline#right_mode_sep('') . '🐶'
       else
         let l:s .= '%#CrystallineInactive#'
       endif
       let l:s .= ' %f%h%w%m%r '
       if a:current
-        let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()}'
+        let l:s .= crystalline#right_sep('', 'Fill') . '🐱 %{fugitive#head()}'
       endif
 
       let l:s .= '%='
@@ -507,7 +507,7 @@ function! s:set_up_plugins()
         let l:s .= crystalline#left_mode_sep('')
       endif
       if a:width > 80
-        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+        let l:s .= ' %{&ft} [%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
       else
         let l:s .= ' '
       endif
