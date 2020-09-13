@@ -57,6 +57,8 @@ function s:configure_plugins()
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
     Plug 'rbong/vim-crystalline'
+    " emoji
+    Plug 'junegunn/vim-emoji'
 
     " fuzzy file finder
     Plug 'junegunn/fzf'
@@ -528,6 +530,20 @@ function! s:set_up_plugins()
     set showtabline=2
     set guioptions-=e
     set laststatus=2
+
+  endif
+
+  " ======= vim-emoji =======
+
+  if s:is_installed('vim-emoji')
+    if s:is_installed('vim-gitgutter')
+      let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+      let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+      let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+      let g:gitgutter_sign_modified_removed = emoji#for('collision')
+    endif
+
+    set completefunc=emoji#complete
 
 
   endif
