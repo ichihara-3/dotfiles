@@ -180,6 +180,16 @@ set number
 " Only effective when 'encoding' is "utf-8"
 set ambiwidth=double
 
+" set ambiwidth=single when terminal is open
+" Because a prompt may be doubled or the format is collapsed
+" with powerlevel10k in a terminal in Vim.
+augroup TermSettings
+  autocmd!
+  autocmd TerminalOpen * set ambiwidth=single
+  autocmd BufEnter * if &buftype=="terminal" | set ambiwidth=single | endif
+  autocmd BufLeave * if &buftype=="terminal" | set ambiwidth=double | endif
+augroup END
+
 " show some special charcters
 set list
 set listchars=tab:▸-,nbsp:%
