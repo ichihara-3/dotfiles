@@ -106,9 +106,6 @@ function s:configure_plugins()
     " go
     Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-    " swift
-    Plug 'keith/swift.vim'
-
     " asyncomplete
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/asyncomplete.vim'
