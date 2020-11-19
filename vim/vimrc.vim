@@ -460,6 +460,8 @@ command! Rc source %
 command! InstallPlug call s:install_plug()
 " command to install plugins with settings
 command! PlugInstallWithSettings PlugInstall | call s:set_up_plugins()
+" vertical terminal
+command! Vt vertical terminal
 
 " ===============================
 "   filetype specific settings
