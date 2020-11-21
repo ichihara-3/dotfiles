@@ -19,3 +19,11 @@ contents::
 ├── .my.zsh
 ├── .gitignore
 ```
+
+to install vimrc, run
+
+```bash
+bash install_vimrc.sh
+```
+
+This script will backup current ~/.vimrc and create symlink to the vim/vimrc.vim.
