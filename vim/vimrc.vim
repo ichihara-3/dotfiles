@@ -509,7 +509,7 @@ function! s:set_up_plugins()
       endif
       let l:s .= ' %f%h%w%m%r '
       if a:current
-        let l:s .= crystalline#right_sep('', 'Fill') . '🐱 %{fugitive#head()}'
+        let l:s .= crystalline#right_sep('', 'Fill') . '🐱' . ' %{FugitiveStatusline()}'
       endif
 
       let l:s .= '%='
