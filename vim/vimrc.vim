@@ -27,6 +27,10 @@ endif
 function! s:install_plug() abort
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
+    if !executable('curl')
+      echo '`curl` not found.'
+      return
+    endif
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
     call s:configure_plugins()
     let g:vim_plug_is_installed = 1
@@ -182,14 +186,16 @@ set ambiwidth=double
 " with powerlevel10k in a terminal in Vim.
 augroup TermSettings
   autocmd!
-  autocmd TerminalOpen * set ambiwidth=single
+  if exists("##TerminalOpen")
+    autocmd TerminalOpen * set ambiwidth=single
+  endif
   autocmd BufEnter * if &buftype=="terminal" | set ambiwidth=single | endif
   autocmd BufLeave * if &buftype=="terminal" | set ambiwidth=double | endif
 augroup END
 
 " show some special charcters
 set list
-set listchars=tab:▸-,nbsp:%
+set listchars=tab:>-,nbsp:%
 " vim update time span (default 4000ms)
 " set shorter for vim-gitgutter:
 "   https://github.com/airblade/vim-gitgutter#getting-started
