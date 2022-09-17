@@ -361,7 +361,6 @@ nnoremap <silent> <leader>l :<C-u>call fzf#vim#buffer_lines('', {'options': ['--
 nnoremap <silent> <leader>a :<C-u>Ag<space>
 " command history
 nnoremap <silent> <leader>c :<C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
-cnoremap <silent> <C-p> <C-u>call fzf#vim#command_history({'options': ['--no-reverse']})<CR>
 " fuzzy search most recently used files
 nnoremap <silent> <leader>m :<C-u>execute 'FZFMru --preview ' .. "'" .. <SID>preview_command() .. "'"<CR>
 
