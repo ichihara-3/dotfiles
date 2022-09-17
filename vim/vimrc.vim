@@ -28,10 +28,11 @@ function! s:install_plug() abort
   if !g:vim_plug_is_installed
     echo 'installing vim-plug...'
     if !executable('curl')
-      echo '`curl` not found.'
+      echo '`curl` not found'
       return
     endif
     call system('curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    runtime '~/.vim/autoload/plug.vim'
     call s:configure_plugins()
     let g:vim_plug_is_installed = 1
     echo 'finished!'
@@ -44,7 +45,7 @@ endfunction
 " ======= plugins ======
 " to install plugins bellow, call :PlugInstall after opening the vim.
 
-function s:configure_plugins()
+function! s:configure_plugins()
   call plug#begin('~/.vim/plugged')
 
     " vim Japanese version help
@@ -61,8 +62,6 @@ function s:configure_plugins()
     Plug 'airblade/vim-gitgutter'
     " pretty statusline
     Plug 'rbong/vim-crystalline'
-    " emoji
-    Plug 'junegunn/vim-emoji'
 
     " fuzzy file finder
     Plug 'junegunn/fzf'
@@ -153,8 +152,9 @@ filetype plugin indent on
 " use 256 colors mode
 set t_Co=256
 
-" vim help languages
-set helplang=ja
+if v:lang =~ "ja_JP"
+  set helplang=ja
+endif
 
 " ======= search ======
 " highlight search
@@ -186,7 +186,7 @@ set ambiwidth=double
 " with powerlevel10k in a terminal in Vim.
 augroup TermSettings
   autocmd!
-  if exists("##TerminalOpen")
+  if exists("TerminalOpen")
     autocmd TerminalOpen * set ambiwidth=single
   endif
   autocmd BufEnter * if &buftype=="terminal" | set ambiwidth=single | endif
@@ -248,6 +248,7 @@ set expandtab
 " backspacing over autoindent, line breaks, start of insert
 set backspace=indent,eol,start
 " file encodings to use
+set encoding=utf-8
 set fileencodings=utf-8,euc-jp,cp932,sjis,latin1
 " enable to hide modified buffers without :write
 set hidden
@@ -507,15 +508,26 @@ function! s:set_up_plugins()
   if s:is_installed('vim-crystalline')
     function! StatusLine(current, width)
       let l:s = ''
+      if !(v:lang =~ 'UTF-8')
+        let g:crystalline_separators = ['', '']
+      endif
 
       if a:current
-        let l:s .= crystalline#mode() . crystalline#right_mode_sep('') . '🐶'
+        if v:lang =~ 'UTF-8'
+          let l:s .= crystalline#mode() . '🐶' . crystalline#right_mode_sep('')
+        else
+          let l:s .= crystalline#mode() .  " V'w'V < wan! " . crystalline#right_mode_sep('')
+        endif
       else
         let l:s .= '%#CrystallineInactive#'
       endif
       let l:s .= ' %f%h%w%m%r '
       if a:current
-        let l:s .= crystalline#right_sep('', 'Fill') . '🐱' . ' %{FugitiveStatusline()}'
+        if v:lang =~ 'UTF-8'
+          let l:s .= crystalline#right_sep('', 'Fill') . ' %{FugitiveStatusline()}' . ' 🐱'
+        else
+          let l:s .= crystalline#right_sep('', 'Fill') . ' %{FugitiveStatusline()}' . ' =^..^= < nyan!'
+        endif
       endif
 
       let l:s .= '%='
@@ -550,17 +562,11 @@ function! s:set_up_plugins()
 
   " ======= vim-emoji =======
 
-  if s:is_installed('vim-emoji')
-    if s:is_installed('vim-gitgutter')
-      let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
-      let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
-      let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
-      let g:gitgutter_sign_modified_removed = emoji#for('collision')
-    endif
-
-    set completefunc=emoji#complete
-
-
+  if s:is_installed('vim-gitgutter')
+    let g:gitgutter_sign_added = '+'
+    let g:gitgutter_sign_modified = '~'
+    let g:gitgutter_sign_removed = '-'
+    let g:gitgutter_sign_modified_removed = '!'
   endif
 
 
@@ -632,7 +638,7 @@ function! s:set_up_plugins()
 
 
   " ======= vim-empty-line =======
-  if s:is_installed('empty-prompt.vim')
+  if s:is_installed('empty-prompt.vim') && v:version >= 801 && has('patch-8.1.1228')
     function! s:empty_prompt_mappings() abort
       " If current line is empty prompt ...
 
