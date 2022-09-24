@@ -202,6 +202,10 @@ set listchars=tab:>-,nbsp:%
 set updatetime=100
 " number of screen lines to keep above and below the cursor.
 set scrolloff=2
+" regexengine
+" to solve problem of too slow ts syntax highlighting
+" https://jameschambers.co.uk/vim-typescript-slow
+set regexpengine=0
 
 " gui font
 if has("gui_running")
