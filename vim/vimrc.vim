@@ -124,6 +124,8 @@ function! s:configure_plugins()
     Plug 'prabirshrestha/vim-lsp'
     " LSP auto settings
     Plug 'mattn/vim-lsp-settings'
+    " Copilot
+    Plug 'github/copilot.vim'
 
 
   call plug#end()
@@ -249,6 +251,8 @@ set tabstop=2
 set shiftwidth=0
 " use spaces to insert a <TAB>
 set expandtab
+" autoindent
+set autoindent
 " backspacing over autoindent, line breaks, start of insert
 set backspace=indent,eol,start
 " file encodings to use
